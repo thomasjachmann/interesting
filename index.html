@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible' />
+    <title>Zinsberechnung</title>
+    <style type="text/css">
+      table.inputs {
+        border-collapse: collapse;
+        border: 1px solid #ccc;
+      }
+      table.inputs caption {
+        font-weight: bold;
+        padding: 10px 0;
+      }
+      table.inputs td {
+        padding: 4px 20px;
+      }
+      table.inputs input {
+        width: 100%;
+      }
+      table.inputs .output {
+        text-align: right;
+      }
+      table.inputs .result td {
+        border-top: 1px solid black;
+        font-weight: bold;
+      }
+      table.cost, table.credit {
+        float: left;
+        margin-right: 20px;
+      }
+      .processing, #months {
+        clear: both;
+      }
+    </style>
+  </head>
+  <body ng-app ng-controller="InterestCtrl">
+    <table class="inputs cost">
+      <caption>Preisermittlung</caption>
+      <tr>
+        <td class="label"><label for="price">Kaufpreis</label></td>
+        <td class="input"><input id="price" type="number" step="10000" ng-model="inputs.price" ng-change="calculate()"/></td>
+        <td class="output">{{inputs.price | currency:"&euro; "}}</td>
+      </tr>
+      <tr>
+        <td class="label"><label for="brokerage">Courtage</label></td>
+        <td class="input"><input id="brokerage" type="number" step="0.05" ng-model="inputs.brokerage" ng-change="calculate()"/></td>
+        <td class="output">{{calculated.brokerageCost | currency:"&euro; "}}</td>
+      </tr>
+      <tr>
+        <td class="label"><label for="tax">Grunderwerbsteuer</label></td>
+        <td class="input"><input id="tax" type="number" step="0.5" ng-model="inputs.tax" ng-change="calculate()"/></td>
+        <td class="output">{{calculated.taxCost | currency:"&euro; "}}</td>
+      </tr>
+      <tr>
+        <td class="label"><label for="notary">Notarkosten</label></td>
+        <td class="input"><input id="notary" type="number" step="0.5" ng-model="inputs.notary" ng-change="calculate()"/></td>
+        <td class="output">{{calculated.notaryCost | currency:"&euro; "}}</td>
+      </tr>
+      <tr class="result">
+        <td class="label">Gesamtpreis</td>
+        <td class="input"></td>
+        <td class="output">{{calculated.cost | currency:"&euro; "}}</td>
+      </tr>
+    </table>
+    <table class="inputs credit">
+      <caption>Zinsberechnung</caption>
+      <tr>
+        <td class="label"><label for="capital">Eigenkapital</label></td>
+        <td class="input"><input id="capital" type="number" step="10000" ng-model="inputs.capital" ng-change="calculate()"/></td>
+      </tr>
+      <tr>
+        <td class="label"><label for="interestRate">Zinssatz</label></td>
+        <td class="input"><input id="interestRate" type="number" step="0.1" ng-model="inputs.interestRate" ng-change="calculate()"/></td>
+      </tr>
+      <tr>
+        <td class="label"><label for="amortizationRate">Tilgungssatz</label></td>
+        <td class="input"><input id="amortizationRate" type="number" step="0.1" ng-model="inputs.amortizationRate" ng-change="calculate()"/></td>
+      </tr>
+      <tr>
+        <td class="label">Kreditsumme</td>
+        <td class="output">{{calculated.credit | currency:"&euro; "}}</td>
+      </tr>
+      <tr>
+        <td class="label">Monatliche Rate</td>
+        <td class="output">{{calculated.payment | currency:"&euro; "}}</td>
+      </tr>
+      <tr>
+        <td class="label">Zahlungsdauer</td>
+        <td class="output"><span ng-show="months">{{months.length / 12 | number:0}} Jahre und {{months.length % 12 | number}} Monate</span></td>
+      </tr>
+      <tr class="result">
+        <td class="label">Gesamtkosten</td>
+        <td class="output"><span ng-show="months">{{totalCosts() + capital | currency:"&euro; "}}</span></td>
+      </tr>
+    </table>
+    <div class="processing" ng-hide="months">processing...</div>
+    <ul id="months" ng-show="months">
+      <li ng-repeat="month in months" class="month" title="">
+        <span class="balance" style="height: {{month.balance / 100 | number:0}}px" title="Kreditsumme: {{month.balance | currency}}"/>
+        <span class="interest" style="height: {{month.interest / 10 | number:0}}px" title="Zins: {{month.interest | currency}}"/>
+        <span class="amortization" style="height: {{month.amortization / 10 | number:0}}px" title="Tilgung: {{month.amortization | currency}}"/>
+        {{$index}}:  (/)
+      </li>
+    </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js" type="text/javascript"></script>
+    <script type='text/javascript'>
+      function Month(balance, payment, interestRate) {
+        this.balance = balance;
+        this.interestRate = interestRate;
+        this.interest = this.balance * this.interestRate / 12;
+        this.amortization = Math.min(payment - this.interest, this.balance);
+        this.payment = this.interest + this.amortization;
+        this.remainder = this.balance - this.amortization;
+      }
+
+      function InterestCtrl($scope, $locale) {
+        interestCtrlScope = $scope;
+        $scope.inputs = {
+          price:            450000,
+          brokerage:        6.25,
+          tax:              5.0,
+          notary:           1.5,
+          capital:          100000,
+          interestRate:     3.0,
+          amortizationRate: 1.0
+        };
+        $scope.calculated = {
+          brokerageCost:    0,
+          taxCost:          0,
+          notaryCost:       0,
+          cost:             0,
+          credit:           0,
+          payment:          0
+        }
+        $scope.payment = 0;
+        $scope.months = null;
+        $scope.processing = null;
+
+        $scope.calculate = function() {
+          if ($scope.processing) {
+            clearTimeout($scope.processing.timeout);
+          }
+          var inputs      = $scope.inputs,
+              calculated  = $scope.calculated;
+          calculated.brokerageCost  = inputs.price * inputs.brokerage / 100.0;
+          calculated.taxCost        = inputs.price * inputs.tax / 100.0;
+          calculated.notaryCost     = inputs.price * inputs.notary / 100.0;
+          calculated.cost           = inputs.price + calculated.brokerageCost + calculated.taxCost + calculated.notaryCost;
+          calculated.credit         = calculated.cost - inputs.capital;
+          calculated.payment        = calculated.credit * (inputs.interestRate + inputs.amortizationRate) / 100.0 / 12;
+          $scope.processing = {
+            months: [],
+            month: null,
+            balance: calculated.credit,
+            timeout: setTimeout(processNextMonth, 0)
+          };
+        };
+
+        $scope.totalCosts = function() {
+          var costs = 0;
+          for (var month in $scope.months) {
+            costs += $scope.months[month].payment;
+          };
+          return costs;
+        };
+
+        function processNextMonth() {
+          var data = $scope.processing;
+          if (data.balance > 0) {
+            var month = new Month(data.balance, $scope.calculated.payment, $scope.inputs.interestRate / 100.0);
+            data.balance = month.remainder;
+            data.months.push(month);
+            data.timeout = setTimeout(processNextMonth, 0);
+          } else {
+            $scope.months = data.months;
+            $scope.processing = null;
+            $scope.$apply();
+          }
+        }
+
+        $scope.calculate();
+      }
+    </script>
+  </body>
+</html>
