@@ -21,17 +21,7 @@ function InterestCtrl($scope, $locale) {
     interestRate:     3.0,
     amortizationRate: 1.0
   };
-  $scope.calculated = {
-    brokerageCost:    0,
-    taxCost:          0,
-    notaryCost:       0,
-    cost:             0,
-    credit:           0,
-    payment:          0,
-    totalPayments:    0
-  }
-  $scope.months = null;
-  $scope.processing = null;
+  $scope.calculated = {};
 
   $scope.calculate = function() {
     if ($scope.processing) {
