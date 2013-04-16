@@ -59,6 +59,11 @@
         <td class='input'></td>
         <td class='output'>{{calculated.cost | currency:"&euro; "}}</td></td>
       </tr>
+      <tr>
+        <td class='label'>(inkl. Nebenkosten)</td>
+        <td class='input'></td>
+        <td class='output'>{{calculated.cost - inputs.price - inputs.addOns | currency:"&euro; "}}</td>
+      </tr>
     </table>
     <table class='inputs credit'>
       <caption>Zinsberechnung</caption>

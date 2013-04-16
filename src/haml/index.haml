@@ -44,6 +44,10 @@
         %td.label Gesamtpreis
         %td.input
         %td.output {{calculated.cost | currency:"&euro; "}}</td>
+      %tr
+        %td.label (inkl. Nebenkosten)
+        %td.input
+        %td.output {{calculated.cost - inputs.price - inputs.addOns | currency:"&euro; "}}
 
     %table.inputs.credit
       %caption Zinsberechnung
