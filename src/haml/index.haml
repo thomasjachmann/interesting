@@ -34,6 +34,12 @@
         %td.input
           %input#notary{:type => "number", :step => "0.5", :"ng-model" => "inputs.notary", :"ng-change" => "calculate()"}
         %td.output {{calculated.notaryCost | currency:"&euro; "}}
+      %tr
+        %td.label
+          %label{:for => "addOns"} Zusatzkosten (z. B. Hausbau)
+        %td.input
+          %input#notary{:type => "number", :step => "10000", :"ng-model" => "inputs.addOns", :"ng-change" => "calculate()"}
+        %td.output {{inputs.addOns | currency:"&euro; "}}
       %tr.result
         %td.label Gesamtpreis
         %td.input

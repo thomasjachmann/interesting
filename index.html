@@ -45,6 +45,15 @@
         </td>
         <td class='output'>{{calculated.notaryCost | currency:"&euro; "}}</td>
       </tr>
+      <tr>
+        <td class='label'>
+          <label for='addOns'>Zusatzkosten (z. B. Hausbau)</label>
+        </td>
+        <td class='input'>
+          <input id='notary' ng-change='calculate()' ng-model='inputs.addOns' step='10000' type='number'>
+        </td>
+        <td class='output'>{{inputs.addOns | currency:"&euro; "}}</td>
+      </tr>
       <tr class='result'>
         <td class='label'>Gesamtpreis</td>
         <td class='input'></td>

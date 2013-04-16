@@ -16,6 +16,7 @@ function InterestCtrl($scope, $locale) {
     brokerage:        6.25,
     tax:              5.0,
     notary:           1.5,
+    addOns:           0,
     capital:          100000,
     interestRate:     3.0,
     amortizationRate: 1.0
@@ -41,7 +42,7 @@ function InterestCtrl($scope, $locale) {
     calculated.brokerageCost  = inputs.price * inputs.brokerage / 100.0;
     calculated.taxCost        = inputs.price * inputs.tax / 100.0;
     calculated.notaryCost     = inputs.price * inputs.notary / 100.0;
-    calculated.cost           = inputs.price + calculated.brokerageCost + calculated.taxCost + calculated.notaryCost;
+    calculated.cost           = inputs.price + calculated.brokerageCost + calculated.taxCost + calculated.notaryCost + inputs.addOns;
     calculated.credit         = calculated.cost - inputs.capital;
     calculated.payment        = calculated.credit * (inputs.interestRate + inputs.amortizationRate) / 100.0 / 12;
     $scope.processing = {
