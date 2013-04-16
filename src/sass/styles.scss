@@ -1,0 +1,30 @@
+table.inputs {
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+  caption {
+    font-weight: bold;
+    padding: 10px 0;
+  }
+  td {
+    padding: 4px 20px;
+  }
+  input {
+    width: 100%;
+  }
+  .output {
+    text-align: right;
+  }
+  .result td {
+    border-top: 1px solid black;
+    font-weight: bold;
+  }
+}
+
+table.cost, table.credit {
+  float: left;
+  margin-right: 20px;
+}
+
+.processing, #months {
+  clear: both;
+}
