@@ -49,7 +49,7 @@ function InterestCtrl($scope, $locale) {
       months: [],
       month: null,
       balance: calculated.credit,
-      timeout: setTimeout(processNextMonth, 0)
+      timeout: setTimeout(processNextMonth, 500)
     };
   };
 
