@@ -10,20 +10,24 @@ function Month(balance, payment, interestRate) {
 }
 
 function InterestCtrl($scope, $locale) {
-  // setup defaults
-  $scope.inputs = {
-    price:            450000,
-    brokerage:        6.25,
-    tax:              5.0,
-    notary:           1.5,
-    addOns:           0,
-    capital:          100000,
-    interestRate:     3.0,
-    amortizationRate: 1.0
-  };
+  $scope.inputs = JSON.parse(localStorage.getItem("inputs"));
+  if (!$scope.inputs) {
+    // setup defaults
+    $scope.inputs = {
+      price:            450000,
+      brokerage:        6.25,
+      tax:              5.0,
+      notary:           1.5,
+      addOns:           0,
+      capital:          100000,
+      interestRate:     3.0,
+      amortizationRate: 1.0
+    };
+  }
   $scope.calculated = {};
 
   $scope.calculate = function() {
+    localStorage.setItem("inputs", JSON.stringify($scope.inputs));
     if ($scope.processing) {
       clearTimeout($scope.processing.timeout);
     }
