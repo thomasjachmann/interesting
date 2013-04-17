@@ -1,6 +1,6 @@
-# Zinsrechner
+# Interesting
 
-Dieser Rechner soll die Kreditentscheidung vereinfachen. 
+Dieser Rechner soll die Kreditentscheidung vereinfachen.
 
 ## Entwicklung
 
