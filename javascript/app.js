@@ -3,7 +3,7 @@
 function Month(balance, payment, interestRate) {
   this.balance      = balance;
   this.interestRate = interestRate;
-  this.interest     = this.balance * this.interestRate / 12;
+  this.interest     = Math.round(this.balance * this.interestRate / 12 * 100) / 100.0;
   this.amortization = Math.min(payment - this.interest, this.balance);
   this.payment      = this.interest + this.amortization;
   this.remainder    = this.balance - this.amortization;
@@ -38,7 +38,7 @@ function InterestCtrl($scope, $locale) {
     calculated.notaryCost     = inputs.price * inputs.notary / 100.0;
     calculated.cost           = inputs.price + calculated.brokerageCost + calculated.taxCost + calculated.notaryCost + inputs.addOns;
     calculated.credit         = calculated.cost - inputs.capital;
-    calculated.payment        = calculated.credit * (inputs.interestRate + inputs.amortizationRate) / 100.0 / 12;
+    calculated.payment        = Math.round(calculated.credit * (inputs.interestRate + inputs.amortizationRate) / 12) / 100.0;
     $scope.processing = {
       months: [],
       month: null,
