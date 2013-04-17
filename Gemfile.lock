@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     coderay (1.0.9)
+    cssmin (1.0.3)
     formatador (0.2.4)
     guard (1.7.0)
       formatador (>= 0.2.4)
@@ -12,11 +13,18 @@ GEM
     guard-haml (0.4)
       guard (>= 1.1)
       haml (>= 3.0)
+    guard-jammit (1.0.1)
+      guard (>= 1.1.0)
+      jammit
     guard-sass (1.0.4)
       guard (>= 1.1.0)
       sass (>= 3.1)
     haml (4.0.2)
       tilt
+    jammit (0.6.6)
+      cssmin (>= 1.0.3)
+      jsmin (>= 1.0.1)
+    jsmin (1.0.1)
     listen (0.7.3)
     lumberjack (1.0.3)
     method_source (0.8.1)
@@ -34,4 +42,5 @@ PLATFORMS
 
 DEPENDENCIES
   guard-haml
+  guard-jammit
   guard-sass

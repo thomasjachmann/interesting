@@ -1,0 +1,5 @@
+javascripts:
+  app:
+    - src/javascript/*.js
+    - src/javascript/models/*.js
+    - src/javascript/controllers/*.js
