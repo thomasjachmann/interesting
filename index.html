@@ -11,12 +11,26 @@
       <caption>Preisermittlung</caption>
       <tr>
         <td class='label'>
-          <label for='price'>Kaufpreis</label>
+          <label for='price'>Grunderwerb (bei Bestand inkl. Haus)</label>
         </td>
         <td class='input'>
           <input id='price' ng-change='calculate()' ng-model='inputs.price' step='10000' type='number'>
         </td>
         <td class='output'>{{inputs.price | currency:"&euro; "}}</td>
+      </tr>
+      <tr>
+        <td class='label'>
+          <label for='addOns'>Zusatzkosten (z. B. Hausbau)</label>
+        </td>
+        <td class='input'>
+          <input id='notary' ng-change='calculate()' ng-model='inputs.addOns' step='10000' type='number'>
+        </td>
+        <td class='output'>{{inputs.addOns | currency:"&euro; "}}</td>
+      </tr>
+      <tr class='result'>
+        <td class='label'>Gesamtwert</td>
+        <td class='input'></td>
+        <td class='output'>{{inputs.price + inputs.addOns | currency:"&euro; "}}</td></td>
       </tr>
       <tr>
         <td class='label'>
@@ -45,24 +59,15 @@
         </td>
         <td class='output'>{{calculated.notaryCost | currency:"&euro; "}}</td>
       </tr>
-      <tr>
-        <td class='label'>
-          <label for='addOns'>Zusatzkosten (z. B. Hausbau)</label>
-        </td>
-        <td class='input'>
-          <input id='notary' ng-change='calculate()' ng-model='inputs.addOns' step='10000' type='number'>
-        </td>
-        <td class='output'>{{inputs.addOns | currency:"&euro; "}}</td>
+      <tr class='result'>
+        <td class='label'>Gesamtnebenkosten</td>
+        <td class='input'></td>
+        <td class='output'>{{calculated.brokerageCost + calculated.taxCost + calculated.notaryCost | currency:"&euro; "}}</td>
       </tr>
       <tr class='result'>
-        <td class='label'>Gesamtpreis</td>
+        <td class='label'>Summe</td>
         <td class='input'></td>
         <td class='output'>{{calculated.cost | currency:"&euro; "}}</td></td>
-      </tr>
-      <tr>
-        <td class='label'>(inkl. Nebenkosten)</td>
-        <td class='input'></td>
-        <td class='output'>{{calculated.cost - inputs.price - inputs.addOns | currency:"&euro; "}}</td>
       </tr>
     </table>
     <table class='inputs credit'>
@@ -105,20 +110,33 @@
           <span ng-show='months'>{{months.length / 12 | number:0}} Jahre und {{months.length % 12 | number}} Monate</span>
         </td>
       </tr>
+      <tr>
+        <td class='label'>Gesamtzinsen</td>
+        <td class='output'>
+          <span ng-show='months'>{{calculated.totalInterest | currency:"&euro; "}}</span>
+        </td>
+      </tr>
       <tr class='result'>
         <td class='label'>Gesamtkosten</td>
         <td class='output'>
-          <span ng-show='months'>{{calculated.totalPayments + capital | currency:"&euro; "}}</span>
+          <span ng-show='months'>{{calculated.totalPayments + inputs.capital | currency:"&euro; "}}</span>
+        </td>
+      </tr>
+      <tr>
+        <td class='label'>davon Nebenkosten</td>
+        <td class='output'>
+          <span ng-show='months'>{{calculated.brokerageCost + calculated.taxCost + calculated.notaryCost + calculated.totalInterest | currency:"&euro; "}}</span>
         </td>
       </tr>
     </table>
     <div class='processing' ng-hide='months'>processing...</div>
     <ul id='months' ng-show='months'>
       <li class='month' ng-repeat='month in months' title=''>
-        {{$index}}:
-        <span class='balance' style='height: {{month.balance / 100 | number:0}}px' title='Kreditsumme: {{month.balance | currency}}'>{{month.balance | currency:"&euro; "}}</span>
+        {{$index}}: {{month.payment | currency:"&euro; "}}
         <span class='interest' style='height: {{month.interest / 10 | number:0}}px' title='Zins: {{month.interest | currency}}'>{{month.interest | currency:"&euro; "}}</span>
         <span class='amortization' style='height: {{month.amortization / 10 | number:0}}px' title='Tilgung: {{month.amortization | currency}}'>{{month.amortization | currency:"&euro; "}}</span>
+        =>
+        <span class='balance' style='height: {{month.balance / 100 | number:0}}px' title='Kreditsumme: {{month.balance | currency}}'>{{month.balance | currency:"&euro; "}}</span>
       </li>
     </ul>
     <script src='http://ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js' type='text/javascript'></script>

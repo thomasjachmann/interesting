@@ -12,10 +12,20 @@
       %caption Preisermittlung
       %tr
         %td.label
-          %label{:for => "price"}Kaufpreis
+          %label{:for => "price"}Grunderwerb (bei Bestand inkl. Haus)
         %td.input
           %input#price{:type => "number", :step => "10000", :"ng-model" => "inputs.price", :"ng-change" => "calculate()"}
         %td.output {{inputs.price | currency:"&euro; "}}
+      %tr
+        %td.label
+          %label{:for => "addOns"} Zusatzkosten (z. B. Hausbau)
+        %td.input
+          %input#notary{:type => "number", :step => "10000", :"ng-model" => "inputs.addOns", :"ng-change" => "calculate()"}
+        %td.output {{inputs.addOns | currency:"&euro; "}}
+      %tr.result
+        %td.label Gesamtwert
+        %td.input
+        %td.output {{inputs.price + inputs.addOns | currency:"&euro; "}}</td>
       %tr
         %td.label
           %label{:for => "brokerage"} Courtage
@@ -34,20 +44,14 @@
         %td.input
           %input#notary{:type => "number", :step => "0.5", :"ng-model" => "inputs.notary", :"ng-change" => "calculate()"}
         %td.output {{calculated.notaryCost | currency:"&euro; "}}
-      %tr
-        %td.label
-          %label{:for => "addOns"} Zusatzkosten (z. B. Hausbau)
-        %td.input
-          %input#notary{:type => "number", :step => "10000", :"ng-model" => "inputs.addOns", :"ng-change" => "calculate()"}
-        %td.output {{inputs.addOns | currency:"&euro; "}}
       %tr.result
-        %td.label Gesamtpreis
+        %td.label Gesamtnebenkosten
+        %td.input
+        %td.output {{calculated.brokerageCost + calculated.taxCost + calculated.notaryCost | currency:"&euro; "}}
+      %tr.result
+        %td.label Summe
         %td.input
         %td.output {{calculated.cost | currency:"&euro; "}}</td>
-      %tr
-        %td.label (inkl. Nebenkosten)
-        %td.input
-        %td.output {{calculated.cost - inputs.price - inputs.addOns | currency:"&euro; "}}
 
     %table.inputs.credit
       %caption Zinsberechnung
@@ -76,18 +80,27 @@
         %td.label Zahlungsdauer
         %td.output
           %span{:"ng-show" => "months"} {{months.length / 12 | number:0}} Jahre und {{months.length % 12 | number}} Monate
+      %tr
+        %td.label Gesamtzinsen
+        %td.output
+          %span{:"ng-show" => "months"} {{calculated.totalInterest | currency:"&euro; "}}
       %tr.result
         %td.label Gesamtkosten
         %td.output
-          %span{:"ng-show" => "months"} {{calculated.totalPayments + capital | currency:"&euro; "}}
+          %span{:"ng-show" => "months"} {{calculated.totalPayments + inputs.capital | currency:"&euro; "}}
+      %tr
+        %td.label davon Nebenkosten
+        %td.output
+          %span{:"ng-show" => "months"} {{calculated.brokerageCost + calculated.taxCost + calculated.notaryCost + calculated.totalInterest | currency:"&euro; "}}
 
     .processing{:"ng-hide" => "months"} processing...
     %ul#months{:"ng-show" => "months"}
       %li.month{:"ng-repeat" => "month in months", :title => ""}
-        {{$index}}:
-        %span.balance{:style => "height: {{month.balance / 100 | number:0}}px", :title => "Kreditsumme: {{month.balance | currency}}"} {{month.balance | currency:"&euro; "}}
+        {{$index}}: {{month.payment | currency:"&euro; "}}
         %span.interest{:style => "height: {{month.interest / 10 | number:0}}px", :title => "Zins: {{month.interest | currency}}"} {{month.interest | currency:"&euro; "}}
         %span.amortization{:style => "height: {{month.amortization / 10 | number:0}}px", :title => "Tilgung: {{month.amortization | currency}}"} {{month.amortization | currency:"&euro; "}}
+        \=>
+        %span.balance{:style => "height: {{month.balance / 100 | number:0}}px", :title => "Kreditsumme: {{month.balance | currency}}"} {{month.balance | currency:"&euro; "}}
 
     %script{:src => "http://ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js", :type => "text/javascript"}
     %script{:src => "javascript/app.js", :type => "text/javascript"}

@@ -55,8 +55,10 @@ function InterestCtrl($scope, $locale) {
       data.months.push(month);
       data.timeout = setTimeout(processNextMonth, 0);
     } else {
+      $scope.calculated.totalInterest = 0;
       $scope.calculated.totalPayments = 0;
       for (var month in data.months) {
+       $scope.calculated.totalInterest += data.months[month].interest;
        $scope.calculated.totalPayments += data.months[month].payment;
       };
       $scope.months = data.months;
