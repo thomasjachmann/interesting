@@ -6,7 +6,17 @@
     %title Interesting - Zinsberechnung
     %link{:href => "css/styles.css", :rel => "stylesheet", :type => "text/css", :media => "all"}
 
-  %body{:"ng-app" => true, :"ng-controller" => "InterestCtrl"}
+  %body{:"ng-app" => "app", :"ng-controller" => "interestCtrl"}
+
+    %ul.allInputs
+      %li{:"ng-repeat" => "currentInputs in allInputs", :"ng-click" => "select($index)", :"ng-class" => "{true:'selected', false:''}[currentInputs == inputs]"}
+        %span.name {{currentInputs.name}}
+        %span.price {{currentInputs.price | currency:"&euro; "}}
+        %span.addOns {{currentInputs.addOns | currency:"&euro; "}}
+
+    %button{:"ng-click" => "add()"} Add
+
+    %input{:type => "text", :"ng-model" => "inputs.name", :"ng-change" => "save()", :pattern => ".{1,}"}
 
     %table.inputs.cost
       %caption Preisermittlung
@@ -31,27 +41,27 @@
           %label{:for => "brokerage"} Courtage
         %td.input
           %input#brokerage{:type => "number", :step => "0.05", :"ng-model" => "inputs.brokerage", :"ng-change" => "calculate()"}
-        %td.output {{calculated.brokerageCost | currency:"&euro; "}}
+        %td.output {{outputs.brokerageCost | currency:"&euro; "}}
       %tr
         %td.label
           %label{:for => "tax"} Grunderwerbsteuer
         %td.input
           %input#tax{:type => "number", :step => "0.5", :"ng-model" => "inputs.tax", :"ng-change" => "calculate()"}
-        %td.output {{calculated.taxCost | currency:"&euro; "}}
+        %td.output {{outputs.taxCost | currency:"&euro; "}}
       %tr
         %td.label
           %label{:for => "notary"} Notarkosten
         %td.input
           %input#notary{:type => "number", :step => "0.5", :"ng-model" => "inputs.notary", :"ng-change" => "calculate()"}
-        %td.output {{calculated.notaryCost | currency:"&euro; "}}
+        %td.output {{outputs.notaryCost | currency:"&euro; "}}
       %tr.result
         %td.label Gesamtnebenkosten
         %td.input
-        %td.output {{calculated.brokerageCost + calculated.taxCost + calculated.notaryCost | currency:"&euro; "}}
+        %td.output {{outputs.brokerageCost + outputs.taxCost + outputs.notaryCost | currency:"&euro; "}}
       %tr.result
         %td.label Summe
         %td.input
-        %td.output {{calculated.cost | currency:"&euro; "}}</td>
+        %td.output {{outputs.cost | currency:"&euro; "}}</td>
 
     %table.inputs.credit
       %caption Zinsberechnung
@@ -72,10 +82,10 @@
           %input#amortizationRate{:type => "number", :step => "0.1", :"ng-model" => "inputs.amortizationRate", :"ng-change" => "calculate()"}
       %tr
         %td.label Kreditsumme
-        %td.output {{calculated.credit | currency:"&euro; "}}
+        %td.output {{outputs.credit | currency:"&euro; "}}
       %tr
         %td.label Monatliche Rate
-        %td.output {{calculated.payment | currency:"&euro; "}}
+        %td.output {{outputs.payment | currency:"&euro; "}}
       %tr
         %td.label Zahlungsdauer
         %td.output
@@ -83,17 +93,17 @@
       %tr
         %td.label Gesamtzinsen
         %td.output
-          %span{:"ng-show" => "months"} {{calculated.totalInterest | currency:"&euro; "}}
+          %span{:"ng-show" => "months"} {{outputs.totalInterest | currency:"&euro; "}}
       %tr.result
         %td.label Gesamtkosten
         %td.output
-          %span{:"ng-show" => "months"} {{calculated.totalPayments + inputs.capital | currency:"&euro; "}}
+          %span{:"ng-show" => "months"} {{outputs.totalPayments + inputs.capital | currency:"&euro; "}}
       %tr
         %td.label davon Nebenkosten
         %td.output
-          %span{:"ng-show" => "months"} {{calculated.brokerageCost + calculated.taxCost + calculated.notaryCost + calculated.totalInterest | currency:"&euro; "}}
+          %span{:"ng-show" => "months"} {{outputs.brokerageCost + outputs.taxCost + outputs.notaryCost + outputs.totalInterest | currency:"&euro; "}}
 
-    .processing{:"ng-hide" => "months"} processing...
+    .processing{:"ng-show" => "processing"} processing...
     %ul#months{:"ng-show" => "months"}
       %li.month{:"ng-repeat" => "month in months", :title => ""}
         {{$index}}: {{month.payment | currency:"&euro; "}}

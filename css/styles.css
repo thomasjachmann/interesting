@@ -1,3 +1,29 @@
+html, body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 14px; }
+
+ul.allInputs {
+  width: 250px;
+  list-style-type: none;
+  padding: 0; }
+  ul.allInputs li {
+    margin: 0;
+    cursor: pointer;
+    overflow: hidden; }
+    ul.allInputs li span.name {
+      display: block;
+      padding: 10px 15px 5px;
+      border-bottom: 1px solid #ccc; }
+    ul.allInputs li span.price, ul.allInputs li span.addOns {
+      margin: 5px 15px 10px;
+      color: #999; }
+    ul.allInputs li span.price {
+      float: left; }
+    ul.allInputs li span.addOns {
+      float: right; }
+  ul.allInputs li.selected {
+    background-color: #eee; }
+
 table.inputs {
   border-collapse: collapse;
   border: 1px solid #ccc; }

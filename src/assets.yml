@@ -1,5 +1,6 @@
 javascripts:
   app:
-    - src/javascript/*.js
+    - src/javascript/services/*.js
     - src/javascript/models/*.js
     - src/javascript/controllers/*.js
+    - src/javascript/*.js

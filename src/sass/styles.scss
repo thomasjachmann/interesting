@@ -1,3 +1,38 @@
+html, body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 14px;
+}
+
+ul.allInputs {
+  width: 250px;
+  list-style-type: none;
+  padding: 0;
+
+  li {
+    margin: 0;
+    cursor: pointer;
+    overflow: hidden;
+    span.name {
+      display: block;
+      padding: 10px 15px 5px;
+      border-bottom: 1px solid #ccc;
+    }
+    span.price, span.addOns {
+      margin: 5px 15px 10px;
+      color: #999;
+    }
+    span.price {
+      float: left;
+    }
+    span.addOns {
+      float: right;
+    }
+  }
+  li.selected {
+    background-color: #eee;
+  }
+}
+
 table.inputs {
   border-collapse: collapse;
   border: 1px solid #ccc;
