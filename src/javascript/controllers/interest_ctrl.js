@@ -1,5 +1,4 @@
 function InterestCtrl($scope, $timeout, dataService) {
-  dataService.migrate();
 
   $scope.add = function() {
     $scope.allInputs.push(new Inputs());

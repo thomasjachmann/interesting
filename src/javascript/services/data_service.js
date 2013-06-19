@@ -50,7 +50,9 @@ function DataService() {
 
     if (schemaVersion)
       localStorage.setItem("schemaVersion", schemaVersion);
-  }
+  };
+
+  this.migrate();
 }
 
 function makePersistable(defaults) {
