@@ -14,13 +14,14 @@ function InterestCtrl($scope, $timeout, dataService) {
     dataService.save($scope.inputs);
   };
 
-  var calculationTimer = null;
+  var calculationTimer, processData;
   $scope.calculate = function() {
     $timeout.cancel(calculationTimer);
     $scope.save();
     var inputs   = $scope.inputs;
     $scope.months = null;
-    $scope.processing = {
+    $scope.processing = true;
+    processData = {
       months: [],
       month: null,
       balance: inputs.credit(),
@@ -30,11 +31,10 @@ function InterestCtrl($scope, $timeout, dataService) {
 
   function processNextMonth(times) {
     times = times || 0;
-    var data = $scope.processing;
-    if (data.balance > 0) {
-      var month = new Month(data.balance, $scope.inputs.payment(), $scope.inputs.interestRate / 100.0);
-      data.balance = month.remainder;
-      data.months.push(month);
+    if (processData.balance > 0) {
+      var month = new Month(processData.balance, $scope.inputs.payment(), $scope.inputs.interestRate / 100.0);
+      processData.balance = month.remainder;
+      processData.months.push(month);
       if (times < 6) {
         processNextMonth(times + 1);
       } else {
@@ -43,13 +43,13 @@ function InterestCtrl($scope, $timeout, dataService) {
     } else {
       $scope.inputs.totalInterest = 0;
       $scope.inputs.totalPayments = 0;
-      for (var month in data.months) {
-        $scope.inputs.totalInterest += data.months[month].interest;
-        $scope.inputs.totalPayments += data.months[month].payment;
+      for (var month in processData.months) {
+        $scope.inputs.totalInterest += processData.months[month].interest;
+        $scope.inputs.totalPayments += processData.months[month].payment;
       };
-      $scope.months = data.months;
-      $scope.processing = null;
-      $scope.$apply();
+      $scope.months = processData.months;
+      $scope.processing = false;
+      processData = null;
     }
   }
 
