@@ -1,11 +1,11 @@
-function Inputs(name, persistentData) {
-  this.name = name || "Unbenannt";
-  this.originalName = this.name;
+function Inputs(id, persistentData) {
+  this.id = id || uuid();
   angular.extend(this, this.defaults);
   angular.extend(this, persistentData);
 }
 
 makePersistable.call(Inputs.prototype, {
+  name:             "Unbenannt",
   price:            450000.0,
   brokerage:        6.25,
   tax:              5.0,
