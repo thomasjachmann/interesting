@@ -1,5 +1,5 @@
 function Inputs(id, persistentData) {
-  this.id = id || uuid();
+  this.id = id || "inputs." + uuid();
   angular.extend(this, this.defaults);
   angular.extend(this, persistentData);
 }
