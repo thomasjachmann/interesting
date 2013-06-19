@@ -48,7 +48,7 @@
         <td class='input'>
           <input id='brokerage' ng-change='calculate()' ng-model='inputs.brokerage' step='0.05' type='number'>
         </td>
-        <td class='output'>{{outputs.brokerageCost | currency:"&euro; "}}</td>
+        <td class='output'>{{inputs.brokerageCost | currency:"&euro; "}}</td>
       </tr>
       <tr>
         <td class='label'>
@@ -57,7 +57,7 @@
         <td class='input'>
           <input id='tax' ng-change='calculate()' ng-model='inputs.tax' step='0.5' type='number'>
         </td>
-        <td class='output'>{{outputs.taxCost | currency:"&euro; "}}</td>
+        <td class='output'>{{inputs.taxCost | currency:"&euro; "}}</td>
       </tr>
       <tr>
         <td class='label'>
@@ -66,17 +66,17 @@
         <td class='input'>
           <input id='notary' ng-change='calculate()' ng-model='inputs.notary' step='0.5' type='number'>
         </td>
-        <td class='output'>{{outputs.notaryCost | currency:"&euro; "}}</td>
+        <td class='output'>{{inputs.notaryCost | currency:"&euro; "}}</td>
       </tr>
       <tr class='result'>
         <td class='label'>Gesamtnebenkosten</td>
         <td class='input'></td>
-        <td class='output'>{{outputs.brokerageCost + outputs.taxCost + outputs.notaryCost | currency:"&euro; "}}</td>
+        <td class='output'>{{inputs.brokerageCost + inputs.taxCost + inputs.notaryCost | currency:"&euro; "}}</td>
       </tr>
       <tr class='result'>
         <td class='label'>Summe</td>
         <td class='input'></td>
-        <td class='output'>{{outputs.cost | currency:"&euro; "}}</td></td>
+        <td class='output'>{{inputs.cost | currency:"&euro; "}}</td></td>
       </tr>
     </table>
     <table class='inputs credit'>
@@ -107,11 +107,11 @@
       </tr>
       <tr>
         <td class='label'>Kreditsumme</td>
-        <td class='output'>{{outputs.credit | currency:"&euro; "}}</td>
+        <td class='output'>{{inputs.credit | currency:"&euro; "}}</td>
       </tr>
       <tr>
         <td class='label'>Monatliche Rate</td>
-        <td class='output'>{{outputs.payment | currency:"&euro; "}}</td>
+        <td class='output'>{{inputs.payment | currency:"&euro; "}}</td>
       </tr>
       <tr>
         <td class='label'>Zahlungsdauer</td>
@@ -122,19 +122,19 @@
       <tr>
         <td class='label'>Gesamtzinsen</td>
         <td class='output'>
-          <span ng-show='months'>{{outputs.totalInterest | currency:"&euro; "}}</span>
+          <span ng-show='months'>{{inputs.totalInterest | currency:"&euro; "}}</span>
         </td>
       </tr>
       <tr class='result'>
         <td class='label'>Gesamtkosten</td>
         <td class='output'>
-          <span ng-show='months'>{{outputs.totalPayments + inputs.capital | currency:"&euro; "}}</span>
+          <span ng-show='months'>{{inputs.totalPayments + inputs.capital | currency:"&euro; "}}</span>
         </td>
       </tr>
       <tr>
         <td class='label'>davon Nebenkosten</td>
         <td class='output'>
-          <span ng-show='months'>{{outputs.brokerageCost + outputs.taxCost + outputs.notaryCost + outputs.totalInterest | currency:"&euro; "}}</span>
+          <span ng-show='months'>{{inputs.brokerageCost + inputs.taxCost + inputs.notaryCost + inputs.totalInterest | currency:"&euro; "}}</span>
         </td>
       </tr>
     </table>
