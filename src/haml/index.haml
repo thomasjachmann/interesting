@@ -14,21 +14,25 @@
         %span.price {{cost.price | currency:"&euro; "}}
         %span.addOns {{cost.addOns | currency:"&euro; "}}
       %li
-        %input{:type => "text", :"ng-model" => "selectedCost.name", :"ng-change" => "saveCost()", :pattern => ".{1,}"}
         %button{:"ng-click" => "addCost()"} Add
 
     %ul.payments
       %li{:"ng-repeat" => "payment in payments", :"ng-click" => "selectPayment($index) && calculate()", :"ng-class" => "{true:'selected', false:''}[payment == selectedPayment]"}
         %span.name {{payment.name}}
         %span.capital {{payment.capital | currency:"&euro; "}}
-        %span.interestRate {{cost.interestRate | currency:"&euro; "}}
-        %span.amortizationRate {{cost.amortizationRate | currency:"&euro; "}}
+        %span.interestRate {{payment.interestRate | percent}}
+        %span.amortizationRate {{payment.amortizationRate | percent}}
       %li
-        %input{:type => "text", :"ng-model" => "selectedPayment.name", :"ng-change" => "savePayment()", :pattern => ".{1,}"}
         %button{:"ng-click" => "addPayment()"} Add
 
     %table.inputs.cost
       %caption Preisermittlung
+      %tr
+        %td.label
+          %label{:for => "costName"} Name
+        %td.input
+          %input{:id => "costName", :type => "text", :"ng-model" => "selectedCost.name", :"ng-change" => "saveCost()", :pattern => ".{1,}"}
+
       %tr
         %td.label
           %label{:for => "price"}Grunderwerb (bei Bestand inkl. Haus)
@@ -74,6 +78,11 @@
 
     %table.inputs.credit
       %caption Zinsberechnung
+      %tr
+        %td.label
+          %label{:for => "paymentName"} Name
+        %td.input
+          %input{:type => "text", :"ng-model" => "selectedPayment.name", :"ng-change" => "savePayment()", :pattern => ".{1,}"}
       %tr
         %td.label
           %label{:for => "capital"} Eigenkapital

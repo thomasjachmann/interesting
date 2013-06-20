@@ -1,6 +1,11 @@
 var app = angular.module("app", []);
 app.service("dataService", DataService);
 app.controller("interestCtrl", InterestCtrl);
+app.filter("percent", function() {
+  return function(data) {
+    return data + " %";
+  };
+});
 
 //http://jsfiddle.net/simpulton/XqDxG/
 

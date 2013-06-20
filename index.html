@@ -14,7 +14,6 @@
         <span class='addOns'>{{cost.addOns | currency:"&euro; "}}</span>
       </li>
       <li>
-        <input ng-change='saveCost()' ng-model='selectedCost.name' pattern='.{1,}' type='text'>
         <button ng-click='addCost()'>Add</button>
       </li>
     </ul>
@@ -22,16 +21,23 @@
       <li ng-class="{true:'selected', false:''}[payment == selectedPayment]" ng-click='selectPayment($index) &amp;&amp; calculate()' ng-repeat='payment in payments'>
         <span class='name'>{{payment.name}}</span>
         <span class='capital'>{{payment.capital | currency:"&euro; "}}</span>
-        <span class='interestRate'>{{cost.interestRate | currency:"&euro; "}}</span>
-        <span class='amortizationRate'>{{cost.amortizationRate | currency:"&euro; "}}</span>
+        <span class='interestRate'>{{payment.interestRate | percent}}</span>
+        <span class='amortizationRate'>{{payment.amortizationRate | percent}}</span>
       </li>
       <li>
-        <input ng-change='savePayment()' ng-model='selectedPayment.name' pattern='.{1,}' type='text'>
         <button ng-click='addPayment()'>Add</button>
       </li>
     </ul>
     <table class='inputs cost'>
       <caption>Preisermittlung</caption>
+      <tr>
+        <td class='label'>
+          <label for='costName'>Name</label>
+        </td>
+        <td class='input'>
+          <input id='costName' ng-change='saveCost()' ng-model='selectedCost.name' pattern='.{1,}' type='text'>
+        </td>
+      </tr>
       <tr>
         <td class='label'>
           <label for='price'>Grunderwerb (bei Bestand inkl. Haus)</label>
@@ -95,6 +101,14 @@
     </table>
     <table class='inputs credit'>
       <caption>Zinsberechnung</caption>
+      <tr>
+        <td class='label'>
+          <label for='paymentName'>Name</label>
+        </td>
+        <td class='input'>
+          <input ng-change='savePayment()' ng-model='selectedPayment.name' pattern='.{1,}' type='text'>
+        </td>
+      </tr>
       <tr>
         <td class='label'>
           <label for='capital'>Eigenkapital</label>

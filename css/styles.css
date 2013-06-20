@@ -12,6 +12,11 @@ ul.costs, ul.payments {
     margin: 0;
     cursor: pointer;
     overflow: hidden; }
+    ul.costs li span.price, ul.costs li span.addOns,
+    ul.costs li span.capital, ul.costs li span.interestRate, ul.costs li span.amortizationRate, ul.payments li span.price, ul.payments li span.addOns,
+    ul.payments li span.capital, ul.payments li span.interestRate, ul.payments li span.amortizationRate {
+      margin: 5px 15px 10px;
+      color: #999; }
     ul.costs li span.name, ul.payments li span.name {
       display: block;
       padding: 10px 15px 5px;
@@ -19,13 +24,19 @@ ul.costs, ul.payments {
   ul.costs li.selected, ul.payments li.selected {
     background-color: #eee; }
 
-ul.costs li span.price, ul.costs li span.addOns {
-  margin: 5px 15px 10px;
-  color: #999; }
 ul.costs li span.price {
   float: left; }
 ul.costs li span.addOns {
   float: right; }
+
+ul.payments li span.capital, ul.payments li span.interestRate, ul.payments li span.amortizationRate {
+  float: left; }
+ul.payments li span.interestRate {
+  margin-right: 0; }
+  ul.payments li span.interestRate:after {
+    content: "/"; }
+ul.payments li span.amortizationRate {
+  margin-left: 0; }
 
 table.cost {
   clear: both; }

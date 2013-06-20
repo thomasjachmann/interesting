@@ -1,6 +1,6 @@
 
 function DataService(){this.all=function(type){var all=[];for(var id in localStorage){if(id.match(new RegExp("^"+type.name.toLowerCase()+"\.[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$"))){all.push(this.load(type,id));}}
-return all;};this.load=function(type,id){return new type(id,angular.fromJson(localStorage.getItem(id)));};this.save=function(obj){localStorage.setItem(obj.id,angular.toJson(obj.persistentData()));return obj;};var migrations={null:function(){var data;for(var name in localStorage){data=angular.fromJson(localStorage.getItem(name));data.name=name;localStorage.setItem("inputs."+uuid(),angular.toJson(data));localStorage.removeItem(name);}
+all.sort(function(a,b){if(a.name<b.name){return-1;}else if(a.name>b.name){return 1}else{return 0;}});return all;};this.load=function(type,id){return new type(id,angular.fromJson(localStorage.getItem(id)));};this.save=function(obj){localStorage.setItem(obj.id,angular.toJson(obj.persistentData()));return obj;};var migrations={null:function(){var data;for(var name in localStorage){data=angular.fromJson(localStorage.getItem(name));data.name=name;localStorage.setItem("inputs."+uuid(),angular.toJson(data));localStorage.removeItem(name);}
 return"1";},1:function(){var match,data;for(var id in localStorage){match=id.match(/^inputs\.([a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12})$/)
 if(match){data=localStorage.getItem(id);localStorage.setItem("cost."+match[1],data);localStorage.removeItem(id);}}
 return"2";},2:function(){var match,data,costData,paymentData;for(var id in localStorage){match=id.match(/^cost\.[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/)
@@ -20,5 +20,5 @@ $scope.savePayment=function(){dataService.save($scope.selectedPayment);};$scope.
 $scope.costs=dataService.all(Cost);if($scope.costs.length==0){$scope.addCost();}
 $scope.selectCost(0);$scope.payments=dataService.all(Payment);if($scope.payments.length==0){$scope.addPayment();}
 $scope.selectPayment(0);$scope.calculate();}
-var app=angular.module("app",[]);app.service("dataService",DataService);app.controller("interestCtrl",InterestCtrl);function uuid(){var s4=function(){return Math.floor((1+Math.random())*0x10000).toString(16).substring(1);};return s4()+s4()+'-'+s4()+'-'+s4()+'-'+
+var app=angular.module("app",[]);app.service("dataService",DataService);app.controller("interestCtrl",InterestCtrl);app.filter("percent",function(){return function(data){return data+" %";};});function uuid(){var s4=function(){return Math.floor((1+Math.random())*0x10000).toString(16).substring(1);};return s4()+s4()+'-'+s4()+'-'+s4()+'-'+
 s4()+'-'+s4()+s4()+s4();}
