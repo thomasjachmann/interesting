@@ -3,10 +3,12 @@ html, body {
   font-size: 14px;
 }
 
-ul.allInputs {
+ul.costs, ul.payments {
   width: 250px;
   list-style-type: none;
   padding: 0;
+  float: left;
+  margin-right: 50px;
 
   li {
     margin: 0;
@@ -17,22 +19,28 @@ ul.allInputs {
       padding: 10px 15px 5px;
       border-bottom: 1px solid #ccc;
     }
-    span.price, span.addOns {
-      margin: 5px 15px 10px;
-      color: #999;
-    }
-    span.price {
-      float: left;
-    }
-    span.addOns {
-      float: right;
-    }
   }
   li.selected {
     background-color: #eee;
   }
 }
 
+ul.costs li {
+  span.price, span.addOns {
+    margin: 5px 15px 10px;
+    color: #999;
+  }
+  span.price {
+    float: left;
+  }
+  span.addOns {
+    float: right;
+  }
+}
+
+table.cost {
+  clear: both;
+}
 table.inputs {
   border-collapse: collapse;
   border: 1px solid #ccc;

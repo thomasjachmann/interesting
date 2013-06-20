@@ -1,20 +1,21 @@
 function DataService() {
-  this.all = function () {
+  this.all = function (type) {
     var all = [];
     for (var id in localStorage) {
-      if (id.match(/^inputs\.[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/))
-        all.push(this.load(id));
+      if (id.match(new RegExp("^" + type.name.toLowerCase() + "\.[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$"))) {
+        all.push(this.load(type, id));
+      }
     }
     return all;
   };
 
-  this.load = function(id) {
-    return new Inputs(id, angular.fromJson(localStorage.getItem(id)));
+  this.load = function(type, id) {
+    return new type(id, angular.fromJson(localStorage.getItem(id)));
   };
 
-  this.save = function(inputs) {
-    localStorage.setItem(inputs.id, angular.toJson(inputs.persistentData()));
-    return inputs;
+  this.save = function(obj) {
+    localStorage.setItem(obj.id, angular.toJson(obj.persistentData()));
+    return obj;
   };
 
   // an array defining migration functions where:
@@ -31,6 +32,40 @@ function DataService() {
         localStorage.removeItem(name);
       }
       return "1";
+    },
+    1: function() {
+      var match, data;
+      for (var id in localStorage) {
+        match = id.match(/^inputs\.([a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12})$/)
+        if (match) {
+          data = localStorage.getItem(id);
+          localStorage.setItem("cost." + match[1], data);
+          localStorage.removeItem(id);
+        }
+      }
+      return "2";
+    },
+    2: function () {
+      var match, data, costData, paymentData;
+      for (var id in localStorage) {
+        match = id.match(/^cost\.[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/)
+        if (match) {
+          data = angular.fromJson(localStorage.getItem(id));
+          costData = {};
+          paymentData = {};
+          for (var key in data) {
+            if (["capital", "interestRate", "amortizationRate"].indexOf(key) == -1) {
+              costData[key] = data[key];
+            } else {
+              paymentData[key] = data[key];
+            }
+          }
+          paymentData.name = data.name;
+          localStorage.setItem(id, angular.toJson(costData));
+          localStorage.setItem("payment." + uuid(), angular.toJson(paymentData));
+        }
+      }
+      return "3";
     }
   };
 
