@@ -17,15 +17,6 @@ function DataService() {
     this.onModel(type.qualifier, function(id, rawData) {
       all.push(this.load(type, id));
     });
-    all.sort(function(a, b) {
-      if (a.name < b.name) {
-          return -1;
-      } else if (a.name > b.name) {
-          return 1
-      } else {
-          return 0;
-      }
-    });
     return all;
   };
 
@@ -41,6 +32,10 @@ function DataService() {
     localStorage.setItem(fqId, angular.toJson(persistentData));
     return obj;
   };
+
+  this.delete = function(obj) {
+    localStorage.removeItem(obj.fqId);
+  }
 
   var renameModel = function(from, to) {
     this.onModel(from, function(id, rawData) {

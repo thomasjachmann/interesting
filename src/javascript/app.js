@@ -1,6 +1,11 @@
 var app = angular.module("app", []);
+
 app.service("dataService", DataService);
+app.service("purchaseSelectionService", SelectionService(Purchase));
+app.service("financingSelectionService", SelectionService(Financing));
+
 app.controller("interestCtrl", InterestCtrl);
+
 app.filter("percent", function() {
   return function(data) {
     return data + " %";
