@@ -26,6 +26,7 @@
         <span class='capital'>{{financing.capital | currency:"&euro; "}}</span>
         <span class='interestRate'>{{financing.interestRate | percent}}</span>
         <span class='amortizationRate'>{{financing.amortizationRate | percent}}</span>
+        <span class='optionalAmortizationRate'>{{financing.optionalAmortizationRate | percent}}</span>
         <span class='delete'>
           <a ng-click='financings.delete(financing)'>x</a>
         </span>
@@ -150,6 +151,14 @@
         </td>
       </tr>
       <tr>
+        <td class='label'>
+          <label for='optionalAmortizationRate'>Sondertilgungssatz</label>
+        </td>
+        <td class='input'>
+          <input id='optionalAmortizationRate' ng-change='calculate()' ng-model='financings.selected.optionalAmortizationRate' step='0.1' type='number'>
+        </td>
+      </tr>
+      <tr>
         <td class='label'>Kreditsumme</td>
         <td class='output'>
           <span ng-show='purchases.selected'>{{credit() | currency:"&euro; "}}</span>
@@ -159,6 +168,12 @@
         <td class='label'>Monatliche Rate</td>
         <td class='output'>
           <span ng-show='purchases.selected'>{{monthlyPayment() | currency:"&euro; "}}</span>
+        </td>
+      </tr>
+      <tr>
+        <td class='label'>Sondertilgung</td>
+        <td class='output'>
+          <span ng-show='purchases.selected'>{{optionalYearlyPayment() | currency:"&euro; "}}</span>
         </td>
       </tr>
       <tr>
@@ -193,7 +208,7 @@
         <span class='interest' style='height: {{payment.interest / 10 | number:0}}px' title='Zins: {{payment.interest | currency}}'>{{payment.interest | currency:"&euro; "}}</span>
         <span class='amortization' style='height: {{payment.amortization / 10 | number:0}}px' title='Tilgung: {{payment.amortization | currency}}'>{{payment.amortization | currency:"&euro; "}}</span>
         =>
-        <span class='balance' style='height: {{payment.balance / 100 | number:0}}px' title='Kreditsumme: {{payment.balance | currency}}'>{{payment.previousBalance | currency:"&euro; "}}</span>
+        <span class='balance' style='height: {{payment.balance / 100 | number:0}}px' title='Kreditsumme: {{payment.balance | currency}}'>{{payment.newBalance | currency:"&euro; "}}</span>
       </li>
     </ul>
     <script src='http://ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js' type='text/javascript'></script>

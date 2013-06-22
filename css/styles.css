@@ -13,8 +13,8 @@ ul.purchases, ul.financings {
     cursor: pointer;
     overflow: hidden; }
     ul.purchases li span.price, ul.purchases li span.addOns,
-    ul.purchases li span.capital, ul.purchases li span.interestRate, ul.purchases li span.amortizationRate, ul.financings li span.price, ul.financings li span.addOns,
-    ul.financings li span.capital, ul.financings li span.interestRate, ul.financings li span.amortizationRate {
+    ul.purchases li span.capital, ul.purchases li span.interestRate, ul.purchases li span.amortizationRate, ul.purchases li span.optionalAmortizationRate, ul.financings li span.price, ul.financings li span.addOns,
+    ul.financings li span.capital, ul.financings li span.interestRate, ul.financings li span.amortizationRate, ul.financings li span.optionalAmortizationRate {
       margin: 5px 15px 10px;
       color: #999; }
     ul.purchases li span.name, ul.financings li span.name {
@@ -29,13 +29,13 @@ ul.purchases li span.price {
 ul.purchases li span.addOns {
   float: right; }
 
-ul.financings li span.capital, ul.financings li span.interestRate, ul.financings li span.amortizationRate {
+ul.financings li span.capital, ul.financings li span.interestRate, ul.financings li span.amortizationRate, ul.financings li span.optionalAmortizationRate {
   float: left; }
-ul.financings li span.interestRate {
+ul.financings li span.interestRate, ul.financings li span.amortizationRate {
   margin-right: 0; }
-  ul.financings li span.interestRate:after {
+  ul.financings li span.interestRate:after, ul.financings li span.amortizationRate:after {
     content: "/"; }
-ul.financings li span.amortizationRate {
+ul.financings li span.amortizationRate, ul.financings li span.optionalAmortizationRate {
   margin-left: 0; }
 
 table.purchase {

@@ -15,7 +15,7 @@ ul.purchases, ul.financings {
     cursor: pointer;
     overflow: hidden;
     span.price, span.addOns,
-    span.capital, span.interestRate, span.amortizationRate {
+    span.capital, span.interestRate, span.amortizationRate, span.optionalAmortizationRate {
       margin: 5px 15px 10px;
       color: #999;
     }
@@ -40,16 +40,16 @@ ul.purchases li {
 }
 
 ul.financings li {
-  span.capital, span.interestRate, span.amortizationRate {
+  span.capital, span.interestRate, span.amortizationRate, span.optionalAmortizationRate {
     float: left;
   }
-  span.interestRate {
+  span.interestRate, span.amortizationRate {
     margin-right: 0;
     &:after {
       content: "/";
     }
   }
-  span.amortizationRate {
+  span.amortizationRate, span.optionalAmortizationRate {
     margin-left: 0;
   }
 }

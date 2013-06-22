@@ -15,6 +15,12 @@ function InterestCtrl($scope, $timeout, purchaseSelectionService, financingSelec
     }
   };
 
+  $scope.optionalYearlyPayment = function() {
+    if ($scope.financings.selected) {
+      return $scope.credit() * $scope.financings.selected.optionalAmortizationRate / 100.0;
+    }
+  }
+
   var calculationTimer, processData;
   $scope.calculate = function() {
     if ($scope.purchases.selected && $scope.financings.selected) {
@@ -36,7 +42,11 @@ function InterestCtrl($scope, $timeout, purchaseSelectionService, financingSelec
   function calculateNextPayment(times) {
     times = times || 0;
     if (processData.balance > 0) {
-      var payment = new Payment(processData.date, $scope.monthlyPayment(), processData.balance, $scope.financings.selected.interestRate / 100.0);
+      var amount = $scope.monthlyPayment();
+      if (processData.date.getMonth() == 11) {
+        amount += $scope.optionalYearlyPayment();
+      }
+      var payment = new Payment(processData.date, amount, processData.balance, $scope.financings.selected.interestRate / 100.0);
       processData.date = new Date(payment.date.getFullYear(), payment.date.getMonth() + 1, 1);
       processData.balance = payment.newBalance;
       processData.payments.push(payment);

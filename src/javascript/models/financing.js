@@ -7,8 +7,9 @@ Financing.prototype.paymentRate = function() {
 };
 
 makePersistable(Financing, {
-  name:             "",
-  capital:          100000.0,
-  interestRate:     3.0,
-  amortizationRate: 1.0,
+  name:                     "",
+  capital:                  100000.0,
+  interestRate:             3.0,
+  amortizationRate:         1.0,
+  optionalAmortizationRate: 5.0,
 });
