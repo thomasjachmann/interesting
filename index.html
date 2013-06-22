@@ -47,6 +47,15 @@
       </tr>
       <tr>
         <td class='label'>
+          <label for='purchaseDate'>Kaufdatum</label>
+        </td>
+        <td class='input'>
+          <input ng-change='purchases.saveSelected()' ng-model='purchases.selected.purchaseDate' type='date'>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class='label'>
           <label for='price'>Grunderwerb (bei Bestand inkl. Haus)</label>
         </td>
         <td class='input'>
@@ -155,36 +164,36 @@
       <tr>
         <td class='label'>Zahlungsdauer</td>
         <td class='output'>
-          <span ng-show='months'>{{months.length / 12 | number:0}} Jahre und {{months.length % 12 | number}} Monate</span>
+          <span ng-show='payments'>{{payments.length / 12 | number:0}} Jahre und {{payments.length % 12 | number}} Monate</span>
         </td>
       </tr>
       <tr>
         <td class='label'>Gesamtzinsen</td>
         <td class='output'>
-          <span ng-show='months'>{{totalInterest | currency:"&euro; "}}</span>
+          <span ng-show='payments'>{{totalInterest | currency:"&euro; "}}</span>
         </td>
       </tr>
       <tr class='result'>
         <td class='label'>Gesamtkosten</td>
         <td class='output'>
-          <span ng-show='months'>{{totalPayments + purchases.selected.capital | currency:"&euro; "}}</span>
+          <span ng-show='payments'>{{totalPayments + purchases.selected.capital | currency:"&euro; "}}</span>
         </td>
       </tr>
       <tr>
         <td class='label'>davon Nebenkosten</td>
         <td class='output'>
-          <span ng-show='months'>{{purchases.selected.taxCost() + purchases.selected.notaryCost() + purchases.selected.brokerageCost() + totalInterest | currency:"&euro; "}}</span>
+          <span ng-show='payments'>{{purchases.selected.taxCost() + purchases.selected.notaryCost() + purchases.selected.brokerageCost() + totalInterest | currency:"&euro; "}}</span>
         </td>
       </tr>
     </table>
     <div class='processing' ng-show='processing'>processing...</div>
-    <ul id='months' ng-show='months'>
-      <li class='month' ng-repeat='month in months' title=''>
-        {{$index}}: {{month.payment | currency:"&euro; "}}
-        <span class='interest' style='height: {{month.interest / 10 | number:0}}px' title='Zins: {{month.interest | currency}}'>{{month.interest | currency:"&euro; "}}</span>
-        <span class='amortization' style='height: {{month.amortization / 10 | number:0}}px' title='Tilgung: {{month.amortization | currency}}'>{{month.amortization | currency:"&euro; "}}</span>
+    <ul id='payments' ng-show='payments'>
+      <li class='payment' ng-repeat='payment in payments' title=''>
+        {{payment.date | date:"yyyy/MM"}}: {{payment.payment | currency:"&euro; "}}
+        <span class='interest' style='height: {{payment.interest / 10 | number:0}}px' title='Zins: {{payment.interest | currency}}'>{{payment.interest | currency:"&euro; "}}</span>
+        <span class='amortization' style='height: {{payment.amortization / 10 | number:0}}px' title='Tilgung: {{payment.amortization | currency}}'>{{payment.amortization | currency:"&euro; "}}</span>
         =>
-        <span class='balance' style='height: {{month.balance / 100 | number:0}}px' title='Kreditsumme: {{month.balance | currency}}'>{{month.balance | currency:"&euro; "}}</span>
+        <span class='balance' style='height: {{payment.balance / 100 | number:0}}px' title='Kreditsumme: {{payment.balance | currency}}'>{{payment.previousBalance | currency:"&euro; "}}</span>
       </li>
     </ul>
     <script src='http://ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js' type='text/javascript'></script>

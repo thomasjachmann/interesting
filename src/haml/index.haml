@@ -40,6 +40,13 @@
 
       %tr
         %td.label
+          %label{:for => "purchaseDate"} Kaufdatum
+        %td.input
+          %input{:type => "date", :"ng-model" => "purchases.selected.purchaseDate", :"ng-change" => "purchases.saveSelected()"}
+        %td
+
+      %tr
+        %td.label
           %label{:for => "price"}Grunderwerb (bei Bestand inkl. Haus)
         %td.input
           %input#price{:type => "number", :step => "10000", :"ng-model" => "purchases.selected.price", :"ng-change" => "calculate()"}
@@ -114,28 +121,28 @@
       %tr
         %td.label Zahlungsdauer
         %td.output
-          %span{:"ng-show" => "months"} {{months.length / 12 | number:0}} Jahre und {{months.length % 12 | number}} Monate
+          %span{:"ng-show" => "payments"} {{payments.length / 12 | number:0}} Jahre und {{payments.length % 12 | number}} Monate
       %tr
         %td.label Gesamtzinsen
         %td.output
-          %span{:"ng-show" => "months"} {{totalInterest | currency:"&euro; "}}
+          %span{:"ng-show" => "payments"} {{totalInterest | currency:"&euro; "}}
       %tr.result
         %td.label Gesamtkosten
         %td.output
-          %span{:"ng-show" => "months"} {{totalPayments + purchases.selected.capital | currency:"&euro; "}}
+          %span{:"ng-show" => "payments"} {{totalPayments + purchases.selected.capital | currency:"&euro; "}}
       %tr
         %td.label davon Nebenkosten
         %td.output
-          %span{:"ng-show" => "months"} {{purchases.selected.taxCost() + purchases.selected.notaryCost() + purchases.selected.brokerageCost() + totalInterest | currency:"&euro; "}}
+          %span{:"ng-show" => "payments"} {{purchases.selected.taxCost() + purchases.selected.notaryCost() + purchases.selected.brokerageCost() + totalInterest | currency:"&euro; "}}
 
     .processing{:"ng-show" => "processing"} processing...
-    %ul#months{:"ng-show" => "months"}
-      %li.month{:"ng-repeat" => "month in months", :title => ""}
-        {{$index}}: {{month.payment | currency:"&euro; "}}
-        %span.interest{:style => "height: {{month.interest / 10 | number:0}}px", :title => "Zins: {{month.interest | currency}}"} {{month.interest | currency:"&euro; "}}
-        %span.amortization{:style => "height: {{month.amortization / 10 | number:0}}px", :title => "Tilgung: {{month.amortization | currency}}"} {{month.amortization | currency:"&euro; "}}
+    %ul#payments{:"ng-show" => "payments"}
+      %li.payment{:"ng-repeat" => "payment in payments", :title => ""}
+        {{payment.date | date:"yyyy/MM"}}: {{payment.payment | currency:"&euro; "}}
+        %span.interest{:style => "height: {{payment.interest / 10 | number:0}}px", :title => "Zins: {{payment.interest | currency}}"} {{payment.interest | currency:"&euro; "}}
+        %span.amortization{:style => "height: {{payment.amortization / 10 | number:0}}px", :title => "Tilgung: {{payment.amortization | currency}}"} {{payment.amortization | currency:"&euro; "}}
         \=>
-        %span.balance{:style => "height: {{month.balance / 100 | number:0}}px", :title => "Kreditsumme: {{month.balance | currency}}"} {{month.balance | currency:"&euro; "}}
+        %span.balance{:style => "height: {{payment.balance / 100 | number:0}}px", :title => "Kreditsumme: {{payment.balance | currency}}"} {{payment.previousBalance | currency:"&euro; "}}
 
     %script{:src => "http://ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js", :type => "text/javascript"}
     %script{:src => "javascript/app.js", :type => "text/javascript"}

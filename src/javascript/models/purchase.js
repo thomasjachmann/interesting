@@ -14,12 +14,18 @@ Purchase.prototype.brokerageCost = function() {
 Purchase.prototype.totalCost = function() {
   return this.price + this.addOns + this.taxCost() + this.notaryCost() + this.brokerageCost();
 };
+Purchase.prototype.firstPaymentAt = function() {
+  var timestamp = Date.parse(this.purchaseDate);
+  var date = isNaN(timestamp) ? new Date() : new Date(timestamp);
+  return new Date(date.getFullYear(), date.getMonth(), 1);
+}
 
 makePersistable(Purchase, {
-  name:       "",
-  price:      400000.0,
-  addOns:     0.0,
-  tax:        5.0,
-  notary:     1.5,
-  brokerage:  6.25,
+  name:         "",
+  price:        400000.0,
+  addOns:       0.0,
+  tax:          5.0,
+  notary:       1.5,
+  brokerage:    6.25,
+  purchaseDate: "",
 });

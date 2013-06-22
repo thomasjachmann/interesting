@@ -61,5 +61,5 @@ table.purchase, table.financing {
   float: left;
   margin-right: 20px; }
 
-.processing, #months {
+.processing, #payments {
   clear: both; }

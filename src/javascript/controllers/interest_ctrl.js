@@ -21,36 +21,38 @@ function InterestCtrl($scope, $timeout, purchaseSelectionService, financingSelec
       $timeout.cancel(calculationTimer);
       $scope.purchases.saveSelected();
       $scope.financings.saveSelected();
-      $scope.months = null;
+      $scope.payments = null;
       $scope.processing = true;
       processData = {
-        months: [],
-        month: null,
+        payments: [],
+        payment: null,
+        date: $scope.purchases.selected.firstPaymentAt(),
         balance: $scope.credit(),
       };
-      calculationTimer = $timeout(processNextMonth, 100);
+      calculationTimer = $timeout(calculateNextPayment, 100);
     }
   };
 
-  function processNextMonth(times) {
+  function calculateNextPayment(times) {
     times = times || 0;
     if (processData.balance > 0) {
-      var month = new Month(processData.balance, $scope.monthlyPayment(), $scope.financings.selected.interestRate / 100.0);
-      processData.balance = month.remainder;
-      processData.months.push(month);
+      var payment = new Payment(processData.date, $scope.monthlyPayment(), processData.balance, $scope.financings.selected.interestRate / 100.0);
+      processData.date = new Date(payment.date.getFullYear(), payment.date.getMonth() + 1, 1);
+      processData.balance = payment.newBalance;
+      processData.payments.push(payment);
       if (times < 6) {
-        processNextMonth(times + 1);
+        calculateNextPayment(times + 1);
       } else {
-        calculationTimer = $timeout(processNextMonth, 0);
+        calculationTimer = $timeout(calculateNextPayment, 0);
       }
     } else {
       $scope.totalInterest = 0;
       $scope.totalPayments = 0;
-      for (var month in processData.months) {
-        $scope.totalInterest += processData.months[month].interest;
-        $scope.totalPayments += processData.months[month].payment;
+      for (var payment in processData.payments) {
+        $scope.totalInterest += processData.payments[payment].interest;
+        $scope.totalPayments += processData.payments[payment].payment;
       };
-      $scope.months = processData.months;
+      $scope.payments = processData.payments;
       $scope.processing = false;
       processData = null;
     }
