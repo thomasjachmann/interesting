@@ -10,7 +10,7 @@
 
     %ul.purchases
       %li{:"ng-repeat" => "purchase in purchases", :"ng-click" => "selectPurchase($index) && calculate()", :"ng-class" => "{true:'selected', false:''}[purchase == selectedPurchase]"}
-        %span.name {{purchase.name}}
+        %span.name {{purchase.name || "-- Unbenannt --"}}
         %span.price {{purchase.price | currency:"&euro; "}}
         %span.addOns {{purchase.addOns | currency:"&euro; "}}
       %li
@@ -18,7 +18,7 @@
 
     %ul.financings
       %li{:"ng-repeat" => "financing in financings", :"ng-click" => "selectFinancing($index) && calculate()", :"ng-class" => "{true:'selected', false:''}[financing == selectedFinancing]"}
-        %span.name {{financing.name}}
+        %span.name {{financing.name || "-- Unbenannt --"}}
         %span.capital {{financing.capital | currency:"&euro; "}}
         %span.interestRate {{financing.interestRate | percent}}
         %span.amortizationRate {{financing.amortizationRate | percent}}
@@ -31,7 +31,7 @@
         %td.label
           %label{:for => "purchaseName"} Name
         %td.input
-          %input{:id => "purchaseName", :type => "text", :"ng-model" => "selectedPurchase.name", :"ng-change" => "savePurchase()", :pattern => ".{1,}"}
+          %input{:id => "purchaseName", :type => "text", :"ng-model" => "selectedPurchase.name", :"ng-change" => "savePurchase()", :placeholder => "Bitte Namen eingeben"}
 
       %tr
         %td.label
@@ -82,7 +82,7 @@
         %td.label
           %label{:for => "financingName"} Name
         %td.input
-          %input{:id => "financingName", :type => "text", :"ng-model" => "selectedFinancing.name", :"ng-change" => "saveFinancing()", :pattern => ".{1,}"}
+          %input{:id => "financingName", :type => "text", :"ng-model" => "selectedFinancing.name", :"ng-change" => "saveFinancing()", :placeholder => "Bitte Namen eingeben"}
       %tr
         %td.label
           %label{:for => "capital"} Eigenkapital

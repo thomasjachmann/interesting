@@ -16,8 +16,8 @@ Purchase.prototype.totalCost = function() {
 };
 
 makePersistable(Purchase, {
-  name:       "Unbenannt",
-  price:      450000.0,
+  name:       "",
+  price:      400000.0,
   addOns:     0.0,
   tax:        5.0,
   notary:     1.5,

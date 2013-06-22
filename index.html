@@ -9,7 +9,7 @@
   <body ng-app='app' ng-controller='interestCtrl'>
     <ul class='purchases'>
       <li ng-class="{true:'selected', false:''}[purchase == selectedPurchase]" ng-click='selectPurchase($index) &amp;&amp; calculate()' ng-repeat='purchase in purchases'>
-        <span class='name'>{{purchase.name}}</span>
+        <span class='name'>{{purchase.name || "-- Unbenannt --"}}</span>
         <span class='price'>{{purchase.price | currency:"&euro; "}}</span>
         <span class='addOns'>{{purchase.addOns | currency:"&euro; "}}</span>
       </li>
@@ -19,7 +19,7 @@
     </ul>
     <ul class='financings'>
       <li ng-class="{true:'selected', false:''}[financing == selectedFinancing]" ng-click='selectFinancing($index) &amp;&amp; calculate()' ng-repeat='financing in financings'>
-        <span class='name'>{{financing.name}}</span>
+        <span class='name'>{{financing.name || "-- Unbenannt --"}}</span>
         <span class='capital'>{{financing.capital | currency:"&euro; "}}</span>
         <span class='interestRate'>{{financing.interestRate | percent}}</span>
         <span class='amortizationRate'>{{financing.amortizationRate | percent}}</span>
@@ -35,7 +35,7 @@
           <label for='purchaseName'>Name</label>
         </td>
         <td class='input'>
-          <input id='purchaseName' ng-change='savePurchase()' ng-model='selectedPurchase.name' pattern='.{1,}' type='text'>
+          <input id='purchaseName' ng-change='savePurchase()' ng-model='selectedPurchase.name' placeholder='Bitte Namen eingeben' type='text'>
         </td>
       </tr>
       <tr>
@@ -106,7 +106,7 @@
           <label for='financingName'>Name</label>
         </td>
         <td class='input'>
-          <input id='financingName' ng-change='saveFinancing()' ng-model='selectedFinancing.name' pattern='.{1,}' type='text'>
+          <input id='financingName' ng-change='saveFinancing()' ng-model='selectedFinancing.name' placeholder='Bitte Namen eingeben' type='text'>
         </td>
       </tr>
       <tr>

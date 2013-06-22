@@ -7,7 +7,7 @@ Financing.prototype.paymentRate = function() {
 };
 
 makePersistable(Financing, {
-  name:             "Unbenannt",
+  name:             "",
   capital:          100000.0,
   interestRate:     3.0,
   amortizationRate: 1.0,
