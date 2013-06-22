@@ -7,35 +7,35 @@
     <link href='css/styles.css' media='all' rel='stylesheet' type='text/css'>
   </head>
   <body ng-app='app' ng-controller='interestCtrl'>
-    <ul class='costs'>
-      <li ng-class="{true:'selected', false:''}[cost == selectedCost]" ng-click='selectCost($index) &amp;&amp; calculate()' ng-repeat='cost in costs'>
-        <span class='name'>{{cost.name}}</span>
-        <span class='price'>{{cost.price | currency:"&euro; "}}</span>
-        <span class='addOns'>{{cost.addOns | currency:"&euro; "}}</span>
+    <ul class='purchases'>
+      <li ng-class="{true:'selected', false:''}[purchase == selectedPurchase]" ng-click='selectPurchase($index) &amp;&amp; calculate()' ng-repeat='purchase in purchases'>
+        <span class='name'>{{purchase.name}}</span>
+        <span class='price'>{{purchase.price | currency:"&euro; "}}</span>
+        <span class='addOns'>{{purchase.addOns | currency:"&euro; "}}</span>
       </li>
       <li>
-        <button ng-click='addCost()'>Add</button>
+        <button ng-click='addPurchase()'>Add</button>
       </li>
     </ul>
-    <ul class='payments'>
-      <li ng-class="{true:'selected', false:''}[payment == selectedPayment]" ng-click='selectPayment($index) &amp;&amp; calculate()' ng-repeat='payment in payments'>
-        <span class='name'>{{payment.name}}</span>
-        <span class='capital'>{{payment.capital | currency:"&euro; "}}</span>
-        <span class='interestRate'>{{payment.interestRate | percent}}</span>
-        <span class='amortizationRate'>{{payment.amortizationRate | percent}}</span>
+    <ul class='financings'>
+      <li ng-class="{true:'selected', false:''}[financing == selectedFinancing]" ng-click='selectFinancing($index) &amp;&amp; calculate()' ng-repeat='financing in financings'>
+        <span class='name'>{{financing.name}}</span>
+        <span class='capital'>{{financing.capital | currency:"&euro; "}}</span>
+        <span class='interestRate'>{{financing.interestRate | percent}}</span>
+        <span class='amortizationRate'>{{financing.amortizationRate | percent}}</span>
       </li>
       <li>
-        <button ng-click='addPayment()'>Add</button>
+        <button ng-click='addFinancing()'>Add</button>
       </li>
     </ul>
-    <table class='inputs cost'>
-      <caption>Preisermittlung</caption>
+    <table class='inputs purchase'>
+      <caption>Immobilienobjekt</caption>
       <tr>
         <td class='label'>
-          <label for='costName'>Name</label>
+          <label for='purchaseName'>Name</label>
         </td>
         <td class='input'>
-          <input id='costName' ng-change='saveCost()' ng-model='selectedCost.name' pattern='.{1,}' type='text'>
+          <input id='purchaseName' ng-change='savePurchase()' ng-model='selectedPurchase.name' pattern='.{1,}' type='text'>
         </td>
       </tr>
       <tr>
@@ -43,70 +43,70 @@
           <label for='price'>Grunderwerb (bei Bestand inkl. Haus)</label>
         </td>
         <td class='input'>
-          <input id='price' ng-change='calculate()' ng-model='selectedCost.price' step='10000' type='number'>
+          <input id='price' ng-change='calculate()' ng-model='selectedPurchase.price' step='10000' type='number'>
         </td>
-        <td class='output'>{{selectedCost.price | currency:"&euro; "}}</td>
+        <td class='output'>{{selectedPurchase.price | currency:"&euro; "}}</td>
       </tr>
       <tr>
         <td class='label'>
           <label for='addOns'>Zusatzkosten (z. B. Hausbau)</label>
         </td>
         <td class='input'>
-          <input id='notary' ng-change='calculate()' ng-model='selectedCost.addOns' step='10000' type='number'>
+          <input id='notary' ng-change='calculate()' ng-model='selectedPurchase.addOns' step='10000' type='number'>
         </td>
-        <td class='output'>{{selectedCost.addOns | currency:"&euro; "}}</td>
+        <td class='output'>{{selectedPurchase.addOns | currency:"&euro; "}}</td>
       </tr>
       <tr class='result'>
         <td class='label'>Gesamtwert</td>
         <td class='input'></td>
-        <td class='output'>{{selectedCost.price + selectedCost.addOns | currency:"&euro; "}}</td></td>
+        <td class='output'>{{selectedPurchase.price + selectedPurchase.addOns | currency:"&euro; "}}</td></td>
       </tr>
       <tr>
         <td class='label'>
           <label for='brokerage'>Courtage</label>
         </td>
         <td class='input'>
-          <input id='brokerage' ng-change='calculate()' ng-model='selectedCost.brokerage' step='0.05' type='number'>
+          <input id='brokerage' ng-change='calculate()' ng-model='selectedPurchase.brokerage' step='0.05' type='number'>
         </td>
-        <td class='output'>{{selectedCost.brokerageCost() | currency:"&euro; "}}</td>
+        <td class='output'>{{selectedPurchase.brokerageCost() | currency:"&euro; "}}</td>
       </tr>
       <tr>
         <td class='label'>
           <label for='tax'>Grunderwerbsteuer</label>
         </td>
         <td class='input'>
-          <input id='tax' ng-change='calculate()' ng-model='selectedCost.tax' step='0.5' type='number'>
+          <input id='tax' ng-change='calculate()' ng-model='selectedPurchase.tax' step='0.5' type='number'>
         </td>
-        <td class='output'>{{selectedCost.taxCost() | currency:"&euro; "}}</td>
+        <td class='output'>{{selectedPurchase.taxCost() | currency:"&euro; "}}</td>
       </tr>
       <tr>
         <td class='label'>
           <label for='notary'>Notarkosten</label>
         </td>
         <td class='input'>
-          <input id='notary' ng-change='calculate()' ng-model='selectedCost.notary' step='0.5' type='number'>
+          <input id='notary' ng-change='calculate()' ng-model='selectedPurchase.notary' step='0.5' type='number'>
         </td>
-        <td class='output'>{{selectedCost.notaryCost() | currency:"&euro; "}}</td>
+        <td class='output'>{{selectedPurchase.notaryCost() | currency:"&euro; "}}</td>
       </tr>
       <tr class='result'>
         <td class='label'>Gesamtnebenkosten</td>
         <td class='input'></td>
-        <td class='output'>{{selectedCost.brokerageCost() + selectedCost.taxCost() + selectedCost.notaryCost() | currency:"&euro; "}}</td>
+        <td class='output'>{{selectedPurchase.taxCost() + selectedPurchase.notaryCost() + selectedPurchase.brokerageCost() | currency:"&euro; "}}</td>
       </tr>
       <tr class='result'>
         <td class='label'>Summe</td>
         <td class='input'></td>
-        <td class='output'>{{selectedCost.cost() | currency:"&euro; "}}</td></td>
+        <td class='output'>{{selectedPurchase.totalCost() | currency:"&euro; "}}</td></td>
       </tr>
     </table>
     <table class='inputs credit'>
-      <caption>Zinsberechnung</caption>
+      <caption>Finanzierung</caption>
       <tr>
         <td class='label'>
-          <label for='paymentName'>Name</label>
+          <label for='financingName'>Name</label>
         </td>
         <td class='input'>
-          <input ng-change='savePayment()' ng-model='selectedPayment.name' pattern='.{1,}' type='text'>
+          <input id='financingName' ng-change='saveFinancing()' ng-model='selectedFinancing.name' pattern='.{1,}' type='text'>
         </td>
       </tr>
       <tr>
@@ -114,7 +114,7 @@
           <label for='capital'>Eigenkapital</label>
         </td>
         <td class='input'>
-          <input id='capital' ng-change='calculate()' ng-model='selectedPayment.capital' step='10000' type='number'>
+          <input id='capital' ng-change='calculate()' ng-model='selectedFinancing.capital' step='10000' type='number'>
         </td>
       </tr>
       <tr>
@@ -122,7 +122,7 @@
           <label for='interestRate'>Zinssatz</label>
         </td>
         <td class='input'>
-          <input id='interestRate' ng-change='calculate()' ng-model='selectedPayment.interestRate' step='0.1' type='number'>
+          <input id='interestRate' ng-change='calculate()' ng-model='selectedFinancing.interestRate' step='0.1' type='number'>
         </td>
       </tr>
       <tr>
@@ -130,7 +130,7 @@
           <label for='amortizationRate'>Tilgungssatz</label>
         </td>
         <td class='input'>
-          <input id='amortizationRate' ng-change='calculate()' ng-model='selectedPayment.amortizationRate' step='0.1' type='number'>
+          <input id='amortizationRate' ng-change='calculate()' ng-model='selectedFinancing.amortizationRate' step='0.1' type='number'>
         </td>
       </tr>
       <tr>
@@ -139,7 +139,7 @@
       </tr>
       <tr>
         <td class='label'>Monatliche Rate</td>
-        <td class='output'>{{payment() | currency:"&euro; "}}</td>
+        <td class='output'>{{monthlyPayment() | currency:"&euro; "}}</td>
       </tr>
       <tr>
         <td class='label'>Zahlungsdauer</td>
@@ -156,13 +156,13 @@
       <tr class='result'>
         <td class='label'>Gesamtkosten</td>
         <td class='output'>
-          <span ng-show='months'>{{totalPayments + selectedCost.capital | currency:"&euro; "}}</span>
+          <span ng-show='months'>{{totalPayments + selectedPurchase.capital | currency:"&euro; "}}</span>
         </td>
       </tr>
       <tr>
         <td class='label'>davon Nebenkosten</td>
         <td class='output'>
-          <span ng-show='months'>{{selectedCost.brokerageCost() + selectedCost.taxCost() + selectedCost.notaryCost() + totalInterest | currency:"&euro; "}}</span>
+          <span ng-show='months'>{{selectedPurchase.taxCost() + selectedPurchase.notaryCost() + selectedPurchase.brokerageCost() + totalInterest | currency:"&euro; "}}</span>
         </td>
       </tr>
     </table>

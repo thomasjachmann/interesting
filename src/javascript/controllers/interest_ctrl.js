@@ -1,51 +1,51 @@
 function InterestCtrl($scope, $timeout, dataService) {
 
-  $scope.addCost = function() {
-    var cost = new Cost();
-    dataService.save(cost);
-    $scope.costs.push(cost);
-    $scope.selectCost($scope.costs.length - 1);
+  $scope.addPurchase = function() {
+    var purchase = new Purchase();
+    dataService.save(purchase);
+    $scope.purchases.push(purchase);
+    $scope.selectPurchase($scope.purchases.length - 1);
   };
 
-  $scope.selectCost = function(index) {
-    $scope.selectedCost = $scope.costs[index];
-    return $scope.selectedCost;
+  $scope.selectPurchase = function(index) {
+    $scope.selectedPurchase = $scope.purchases[index];
+    return $scope.selectedPurchase;
   }
 
-  $scope.saveCost = function() {
-    dataService.save($scope.selectedCost);
+  $scope.savePurchase = function() {
+    dataService.save($scope.selectedPurchase);
   };
 
-  $scope.addPayment = function() {
-    var payment = new Payment();
-    dataService.save(payment);
-    $scope.payments.push(payment);
-    $scope.selectPayment($scope.payments.length - 1);
+  $scope.addFinancing = function() {
+    var financing = new Financing();
+    dataService.save(financing);
+    $scope.financings.push(financing);
+    $scope.selectFinancing($scope.financings.length - 1);
   };
 
-  $scope.selectPayment = function(index) {
-    $scope.selectedPayment = $scope.payments[index];
-    return $scope.selectPayment;
+  $scope.selectFinancing = function(index) {
+    $scope.selectedFinancing = $scope.financings[index];
+    return $scope.selectFinancing;
   }
 
-  $scope.savePayment = function() {
-    dataService.save($scope.selectedPayment);
+  $scope.saveFinancing = function() {
+    dataService.save($scope.selectedFinancing);
   };
 
   $scope.credit = function() {
-    return $scope.selectedCost.cost() - $scope.selectedPayment.capital;
+    return $scope.selectedPurchase.totalCost() - $scope.selectedFinancing.capital;
   };
 
-  $scope.payment = function() {
-    var yearlyPayment = $scope.credit() * $scope.selectedPayment.paymentRate() / 100.0;
+  $scope.monthlyPayment = function() {
+    var yearlyPayment = $scope.credit() * $scope.selectedFinancing.paymentRate() / 100.0;
     return Math.round(yearlyPayment / 12);
   };
 
   var calculationTimer, processData;
   $scope.calculate = function() {
     $timeout.cancel(calculationTimer);
-    $scope.saveCost();
-    $scope.savePayment();
+    $scope.savePurchase();
+    $scope.saveFinancing();
     $scope.months = null;
     $scope.processing = true;
     processData = {
@@ -59,7 +59,7 @@ function InterestCtrl($scope, $timeout, dataService) {
   function processNextMonth(times) {
     times = times || 0;
     if (processData.balance > 0) {
-      var month = new Month(processData.balance, $scope.payment(), $scope.selectedPayment.interestRate / 100.0);
+      var month = new Month(processData.balance, $scope.monthlyPayment(), $scope.selectedFinancing.interestRate / 100.0);
       processData.balance = month.remainder;
       processData.months.push(month);
       if (times < 6) {
@@ -80,17 +80,17 @@ function InterestCtrl($scope, $timeout, dataService) {
     }
   }
 
-  $scope.costs = dataService.all(Cost);
-  if ($scope.costs.length == 0) {
-    $scope.addCost();
+  $scope.purchases = dataService.all(Purchase);
+  if ($scope.purchases.length == 0) {
+    $scope.addPurchase();
   }
-  $scope.selectCost(0);
+  $scope.selectPurchase(0);
 
-  $scope.payments = dataService.all(Payment);
-  if ($scope.payments.length == 0) {
-    $scope.addPayment();
+  $scope.financings = dataService.all(Financing);
+  if ($scope.financings.length == 0) {
+    $scope.addFinancing();
   }
-  $scope.selectPayment(0);
+  $scope.selectFinancing(0);
 
   $scope.calculate();
 

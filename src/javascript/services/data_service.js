@@ -42,6 +42,13 @@ function DataService() {
     return obj;
   };
 
+  var renameModel = function(from, to) {
+    this.onModel(from, function(id, rawData) {
+      localStorage.setItem(to + "." + id, rawData);
+      localStorage.removeItem(from + "." + id);
+    });
+  };
+
   // an array defining migration functions where:
   // - key is the version from which to migrate
   // - value is the function doing the migration and returning the version that
@@ -58,15 +65,12 @@ function DataService() {
       return "1";
     },
     1: function() {
-      onModel("inputs", function(id, rawData) {
-        localStorage.setItem("cost." + id, rawData);
-        localStorage.removeItem("inputs." + id);
-      });
+      renameModel.call(this, "inputs", "cost");
       return "2";
     },
     2: function () {
       var data, costData, paymentData;
-      onModel("cost", function(id, rawData) {
+      this.onModel("cost", function(id, rawData) {
         data = angular.fromJson(rawData);
         costData = {};
         paymentData = {};
@@ -82,6 +86,14 @@ function DataService() {
         localStorage.setItem("payment." + uuid(), angular.toJson(paymentData));
       });
       return "3";
+    },
+    3: function() {
+      renameModel.call(this, "cost", "purchase");
+      return "4";
+    },
+    4: function() {
+      renameModel.call(this, "payment", "financing");
+      return "5";
     }
   };
 
@@ -94,7 +106,7 @@ function DataService() {
       if (migration === undefined) {
         break;
       }
-      newSchemaVersion = migration();
+      newSchemaVersion = migration.call(this);
       console.log("migrated schema from version " + schemaVersion + " to version " + newSchemaVersion);
       schemaVersion = newSchemaVersion;
     } while (true);

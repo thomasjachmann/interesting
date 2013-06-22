@@ -8,102 +8,102 @@
 
   %body{:"ng-app" => "app", :"ng-controller" => "interestCtrl"}
 
-    %ul.costs
-      %li{:"ng-repeat" => "cost in costs", :"ng-click" => "selectCost($index) && calculate()", :"ng-class" => "{true:'selected', false:''}[cost == selectedCost]"}
-        %span.name {{cost.name}}
-        %span.price {{cost.price | currency:"&euro; "}}
-        %span.addOns {{cost.addOns | currency:"&euro; "}}
+    %ul.purchases
+      %li{:"ng-repeat" => "purchase in purchases", :"ng-click" => "selectPurchase($index) && calculate()", :"ng-class" => "{true:'selected', false:''}[purchase == selectedPurchase]"}
+        %span.name {{purchase.name}}
+        %span.price {{purchase.price | currency:"&euro; "}}
+        %span.addOns {{purchase.addOns | currency:"&euro; "}}
       %li
-        %button{:"ng-click" => "addCost()"} Add
+        %button{:"ng-click" => "addPurchase()"} Add
 
-    %ul.payments
-      %li{:"ng-repeat" => "payment in payments", :"ng-click" => "selectPayment($index) && calculate()", :"ng-class" => "{true:'selected', false:''}[payment == selectedPayment]"}
-        %span.name {{payment.name}}
-        %span.capital {{payment.capital | currency:"&euro; "}}
-        %span.interestRate {{payment.interestRate | percent}}
-        %span.amortizationRate {{payment.amortizationRate | percent}}
+    %ul.financings
+      %li{:"ng-repeat" => "financing in financings", :"ng-click" => "selectFinancing($index) && calculate()", :"ng-class" => "{true:'selected', false:''}[financing == selectedFinancing]"}
+        %span.name {{financing.name}}
+        %span.capital {{financing.capital | currency:"&euro; "}}
+        %span.interestRate {{financing.interestRate | percent}}
+        %span.amortizationRate {{financing.amortizationRate | percent}}
       %li
-        %button{:"ng-click" => "addPayment()"} Add
+        %button{:"ng-click" => "addFinancing()"} Add
 
-    %table.inputs.cost
-      %caption Preisermittlung
+    %table.inputs.purchase
+      %caption Immobilienobjekt
       %tr
         %td.label
-          %label{:for => "costName"} Name
+          %label{:for => "purchaseName"} Name
         %td.input
-          %input{:id => "costName", :type => "text", :"ng-model" => "selectedCost.name", :"ng-change" => "saveCost()", :pattern => ".{1,}"}
+          %input{:id => "purchaseName", :type => "text", :"ng-model" => "selectedPurchase.name", :"ng-change" => "savePurchase()", :pattern => ".{1,}"}
 
       %tr
         %td.label
           %label{:for => "price"}Grunderwerb (bei Bestand inkl. Haus)
         %td.input
-          %input#price{:type => "number", :step => "10000", :"ng-model" => "selectedCost.price", :"ng-change" => "calculate()"}
-        %td.output {{selectedCost.price | currency:"&euro; "}}
+          %input#price{:type => "number", :step => "10000", :"ng-model" => "selectedPurchase.price", :"ng-change" => "calculate()"}
+        %td.output {{selectedPurchase.price | currency:"&euro; "}}
       %tr
         %td.label
           %label{:for => "addOns"} Zusatzkosten (z. B. Hausbau)
         %td.input
-          %input#notary{:type => "number", :step => "10000", :"ng-model" => "selectedCost.addOns", :"ng-change" => "calculate()"}
-        %td.output {{selectedCost.addOns | currency:"&euro; "}}
+          %input#notary{:type => "number", :step => "10000", :"ng-model" => "selectedPurchase.addOns", :"ng-change" => "calculate()"}
+        %td.output {{selectedPurchase.addOns | currency:"&euro; "}}
       %tr.result
         %td.label Gesamtwert
         %td.input
-        %td.output {{selectedCost.price + selectedCost.addOns | currency:"&euro; "}}</td>
+        %td.output {{selectedPurchase.price + selectedPurchase.addOns | currency:"&euro; "}}</td>
       %tr
         %td.label
           %label{:for => "brokerage"} Courtage
         %td.input
-          %input#brokerage{:type => "number", :step => "0.05", :"ng-model" => "selectedCost.brokerage", :"ng-change" => "calculate()"}
-        %td.output {{selectedCost.brokerageCost() | currency:"&euro; "}}
+          %input#brokerage{:type => "number", :step => "0.05", :"ng-model" => "selectedPurchase.brokerage", :"ng-change" => "calculate()"}
+        %td.output {{selectedPurchase.brokerageCost() | currency:"&euro; "}}
       %tr
         %td.label
           %label{:for => "tax"} Grunderwerbsteuer
         %td.input
-          %input#tax{:type => "number", :step => "0.5", :"ng-model" => "selectedCost.tax", :"ng-change" => "calculate()"}
-        %td.output {{selectedCost.taxCost() | currency:"&euro; "}}
+          %input#tax{:type => "number", :step => "0.5", :"ng-model" => "selectedPurchase.tax", :"ng-change" => "calculate()"}
+        %td.output {{selectedPurchase.taxCost() | currency:"&euro; "}}
       %tr
         %td.label
           %label{:for => "notary"} Notarkosten
         %td.input
-          %input#notary{:type => "number", :step => "0.5", :"ng-model" => "selectedCost.notary", :"ng-change" => "calculate()"}
-        %td.output {{selectedCost.notaryCost() | currency:"&euro; "}}
+          %input#notary{:type => "number", :step => "0.5", :"ng-model" => "selectedPurchase.notary", :"ng-change" => "calculate()"}
+        %td.output {{selectedPurchase.notaryCost() | currency:"&euro; "}}
       %tr.result
         %td.label Gesamtnebenkosten
         %td.input
-        %td.output {{selectedCost.brokerageCost() + selectedCost.taxCost() + selectedCost.notaryCost() | currency:"&euro; "}}
+        %td.output {{selectedPurchase.taxCost() + selectedPurchase.notaryCost() + selectedPurchase.brokerageCost() | currency:"&euro; "}}
       %tr.result
         %td.label Summe
         %td.input
-        %td.output {{selectedCost.cost() | currency:"&euro; "}}</td>
+        %td.output {{selectedPurchase.totalCost() | currency:"&euro; "}}</td>
 
     %table.inputs.credit
-      %caption Zinsberechnung
+      %caption Finanzierung
       %tr
         %td.label
-          %label{:for => "paymentName"} Name
+          %label{:for => "financingName"} Name
         %td.input
-          %input{:type => "text", :"ng-model" => "selectedPayment.name", :"ng-change" => "savePayment()", :pattern => ".{1,}"}
+          %input{:id => "financingName", :type => "text", :"ng-model" => "selectedFinancing.name", :"ng-change" => "saveFinancing()", :pattern => ".{1,}"}
       %tr
         %td.label
           %label{:for => "capital"} Eigenkapital
         %td.input
-          %input#capital{:type => "number", :step => "10000", :"ng-model" => "selectedPayment.capital", :"ng-change" => "calculate()"}
+          %input#capital{:type => "number", :step => "10000", :"ng-model" => "selectedFinancing.capital", :"ng-change" => "calculate()"}
       %tr
         %td.label
           %label{:for => "interestRate"} Zinssatz
         %td.input
-          %input#interestRate{:type => "number", :step => "0.1", :"ng-model" => "selectedPayment.interestRate", :"ng-change" => "calculate()"}
+          %input#interestRate{:type => "number", :step => "0.1", :"ng-model" => "selectedFinancing.interestRate", :"ng-change" => "calculate()"}
       %tr
         %td.label
           %label{:for => "amortizationRate"} Tilgungssatz
         %td.input
-          %input#amortizationRate{:type => "number", :step => "0.1", :"ng-model" => "selectedPayment.amortizationRate", :"ng-change" => "calculate()"}
+          %input#amortizationRate{:type => "number", :step => "0.1", :"ng-model" => "selectedFinancing.amortizationRate", :"ng-change" => "calculate()"}
       %tr
         %td.label Kreditsumme
         %td.output {{credit() | currency:"&euro; "}}
       %tr
         %td.label Monatliche Rate
-        %td.output {{payment() | currency:"&euro; "}}
+        %td.output {{monthlyPayment() | currency:"&euro; "}}
       %tr
         %td.label Zahlungsdauer
         %td.output
@@ -115,11 +115,11 @@
       %tr.result
         %td.label Gesamtkosten
         %td.output
-          %span{:"ng-show" => "months"} {{totalPayments + selectedCost.capital | currency:"&euro; "}}
+          %span{:"ng-show" => "months"} {{totalPayments + selectedPurchase.capital | currency:"&euro; "}}
       %tr
         %td.label davon Nebenkosten
         %td.output
-          %span{:"ng-show" => "months"} {{selectedCost.brokerageCost() + selectedCost.taxCost() + selectedCost.notaryCost() + totalInterest | currency:"&euro; "}}
+          %span{:"ng-show" => "months"} {{selectedPurchase.taxCost() + selectedPurchase.notaryCost() + selectedPurchase.brokerageCost() + totalInterest | currency:"&euro; "}}
 
     .processing{:"ng-show" => "processing"} processing...
     %ul#months{:"ng-show" => "months"}

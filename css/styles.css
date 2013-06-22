@@ -2,43 +2,43 @@ html, body {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 14px; }
 
-ul.costs, ul.payments {
+ul.purchases, ul.financings {
   width: 250px;
   list-style-type: none;
   padding: 0;
   float: left;
   margin-right: 50px; }
-  ul.costs li, ul.payments li {
+  ul.purchases li, ul.financings li {
     margin: 0;
     cursor: pointer;
     overflow: hidden; }
-    ul.costs li span.price, ul.costs li span.addOns,
-    ul.costs li span.capital, ul.costs li span.interestRate, ul.costs li span.amortizationRate, ul.payments li span.price, ul.payments li span.addOns,
-    ul.payments li span.capital, ul.payments li span.interestRate, ul.payments li span.amortizationRate {
+    ul.purchases li span.price, ul.purchases li span.addOns,
+    ul.purchases li span.capital, ul.purchases li span.interestRate, ul.purchases li span.amortizationRate, ul.financings li span.price, ul.financings li span.addOns,
+    ul.financings li span.capital, ul.financings li span.interestRate, ul.financings li span.amortizationRate {
       margin: 5px 15px 10px;
       color: #999; }
-    ul.costs li span.name, ul.payments li span.name {
+    ul.purchases li span.name, ul.financings li span.name {
       display: block;
       padding: 10px 15px 5px;
       border-bottom: 1px solid #ccc; }
-  ul.costs li.selected, ul.payments li.selected {
+  ul.purchases li.selected, ul.financings li.selected {
     background-color: #eee; }
 
-ul.costs li span.price {
+ul.purchases li span.price {
   float: left; }
-ul.costs li span.addOns {
+ul.purchases li span.addOns {
   float: right; }
 
-ul.payments li span.capital, ul.payments li span.interestRate, ul.payments li span.amortizationRate {
+ul.financings li span.capital, ul.financings li span.interestRate, ul.financings li span.amortizationRate {
   float: left; }
-ul.payments li span.interestRate {
+ul.financings li span.interestRate {
   margin-right: 0; }
-  ul.payments li span.interestRate:after {
+  ul.financings li span.interestRate:after {
     content: "/"; }
-ul.payments li span.amortizationRate {
+ul.financings li span.amortizationRate {
   margin-left: 0; }
 
-table.cost {
+table.purchase {
   clear: both; }
 
 table.inputs {
@@ -57,7 +57,7 @@ table.inputs {
     border-top: 1px solid black;
     font-weight: bold; }
 
-table.cost, table.credit {
+table.purchase, table.credit {
   float: left;
   margin-right: 20px; }
 

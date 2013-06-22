@@ -3,7 +3,7 @@ html, body {
   font-size: 14px;
 }
 
-ul.costs, ul.payments {
+ul.purchases, ul.financings {
   width: 250px;
   list-style-type: none;
   padding: 0;
@@ -30,7 +30,7 @@ ul.costs, ul.payments {
   }
 }
 
-ul.costs li {
+ul.purchases li {
   span.price {
     float: left;
   }
@@ -39,7 +39,7 @@ ul.costs li {
   }
 }
 
-ul.payments li {
+ul.financings li {
   span.capital, span.interestRate, span.amortizationRate {
     float: left;
   }
@@ -54,7 +54,7 @@ ul.payments li {
   }
 }
 
-table.cost {
+table.purchase {
   clear: both;
 }
 table.inputs {
@@ -79,7 +79,7 @@ table.inputs {
   }
 }
 
-table.cost, table.credit {
+table.purchase, table.credit {
   float: left;
   margin-right: 20px;
 }
