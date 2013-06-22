@@ -1,7 +1,5 @@
 function Cost(id, persistentData) {
-  this.id = id || "cost." + uuid();
-  angular.extend(this, this.defaults);
-  angular.extend(this, persistentData);
+  this.initialize(id, persistentData);
 }
 
 Cost.prototype.brokerageCost  = function() { return this.price * this.brokerage / 100.0; };
@@ -9,7 +7,7 @@ Cost.prototype.taxCost        = function() { return this.price * this.tax / 100.
 Cost.prototype.notaryCost     = function() { return this.price * this.notary / 100.0; };
 Cost.prototype.cost           = function() { return this.price + this.brokerageCost() + this.taxCost() + this.notaryCost() + this.addOns; };
 
-makePersistable.call(Cost.prototype, {
+makePersistable(Cost, {
   name:       "Unbenannt",
   price:      450000.0,
   brokerage:  6.25,
