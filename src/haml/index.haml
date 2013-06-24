@@ -139,7 +139,7 @@
       %tr.result
         %td.label Gesamtkosten
         %td.output
-          %span{:"ng-show" => "payments"} {{totalPayments + purchases.selected.capital | currency:"&euro; "}}
+          %span{:"ng-show" => "payments"} {{totalPayments + financings.selected.capital | currency:"&euro; "}}
       %tr
         %td.label davon Nebenkosten
         %td.output
