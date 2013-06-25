@@ -22,7 +22,7 @@ Purchase.prototype.firstPaymentAt = function() {
 
 makePersistable(Purchase, {
   name:         "",
-  price:        400000.0,
+  price:        0.0,
   addOns:       0.0,
   tax:          5.0,
   notary:       1.5,
