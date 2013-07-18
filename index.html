@@ -12,8 +12,9 @@
         <span class='name'>{{purchase.name || "-- Unbenannt --"}}</span>
         <span class='price'>{{purchase.price | currency:"&euro; "}}</span>
         <span class='addOns'>{{purchase.addOns | currency:"&euro; "}}</span>
-        <span class='delete'>
-          <a ng-click='purchases.delete(purchase)'>x</a>
+        <span class='actions'>
+          <a ng-click='purchases.delete(purchase); $event.stopPropagation()'>x</a>
+          <a ng-click='purchases.duplicate(purchase); $event.stopPropagation()'>duplicate</a>
         </span>
       </li>
       <li>
@@ -27,8 +28,9 @@
         <span class='interestRate'>{{financing.interestRate | percent}}</span>
         <span class='amortizationRate'>{{financing.amortizationRate | percent}}</span>
         <span class='optionalAmortizationRate'>{{financing.optionalAmortizationRate | percent}}</span>
-        <span class='delete'>
-          <a ng-click='financings.delete(financing)'>x</a>
+        <span class='actions'>
+          <a ng-click='financings.delete(financing); $event.stopPropagation()'>x</a>
+          <a ng-click='financings.duplicate(financing); $event.stopPropagation()'>duplicate</a>
         </span>
       </li>
       <li>

@@ -13,8 +13,9 @@
         %span.name {{purchase.name || "-- Unbenannt --"}}
         %span.price {{purchase.price | currency:"&euro; "}}
         %span.addOns {{purchase.addOns | currency:"&euro; "}}
-        %span.delete
-          %a{:"ng-click" => "purchases.delete(purchase)"} x
+        %span.actions
+          %a{:"ng-click" => "purchases.delete(purchase); $event.stopPropagation()"} x
+          %a{:"ng-click" => "purchases.duplicate(purchase); $event.stopPropagation()"} duplicate
       %li
         %button{:"ng-click" => "purchases.addNew()"} Add
 
@@ -25,8 +26,9 @@
         %span.interestRate {{financing.interestRate | percent}}
         %span.amortizationRate {{financing.amortizationRate | percent}}
         %span.optionalAmortizationRate {{financing.optionalAmortizationRate | percent}}
-        %span.delete
-          %a{:"ng-click" => "financings.delete(financing)"} x
+        %span.actions
+          %a{:"ng-click" => "financings.delete(financing); $event.stopPropagation()"} x
+          %a{:"ng-click" => "financings.duplicate(financing); $event.stopPropagation()"} duplicate
       %li
         %button{:"ng-click" => "financings.addNew()"} Add
 

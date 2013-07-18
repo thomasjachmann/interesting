@@ -12,12 +12,15 @@ function SelectionService(type) {
       });
     }
 
-    this.addNew = function() {
-      var obj = new type();
+    this.add = function(obj) {
       dataService.save(obj);
       this.all.push(obj);
       this.sort();
       this.select(obj);
+    };
+
+    this.addNew = function() {
+      this.add(new type());
     };
 
     this.select = function(obj) {
@@ -45,6 +48,12 @@ function SelectionService(type) {
           }
         }
       }
+    };
+
+    this.duplicate = function(obj) {
+      var data = obj.extractPersistentData();
+      data.name = "Copy of " + data.name;
+      this.add(new type(null, data));
     }
 
     this.selected = null;
