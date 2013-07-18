@@ -2,12 +2,15 @@ html, body {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 14px; }
 
-ul.purchases, ul.financings {
-  width: 250px;
-  list-style-type: none;
-  padding: 0;
+ul.purchases, ul.financings,
+table.purchase, table.financing {
+  width: 500px;
   float: left;
-  margin-right: 50px; }
+  margin-right: 20px; }
+
+ul.purchases, ul.financings {
+  list-style-type: none;
+  padding: 0; }
   ul.purchases li, ul.financings li {
     margin: 0;
     cursor: pointer;
@@ -51,15 +54,19 @@ table.inputs {
     padding: 4px 20px; }
   table.inputs input {
     width: 100%; }
+  table.inputs .label {
+    width: 250px;
+    overflow: hidden; }
+    table.inputs .label .adjusters {
+      display: inline;
+      float: right;
+      font-size: 75%; }
   table.inputs .output {
-    text-align: right; }
+    text-align: right;
+    white-space: nowrap; }
   table.inputs .result td {
     border-top: 1px solid black;
     font-weight: bold; }
-
-table.purchase, table.financing {
-  float: left;
-  margin-right: 20px; }
 
 .processing, #payments {
   clear: both; }

@@ -136,7 +136,18 @@
       </tr>
       <tr>
         <td class='label'>
-          <label for='interestRate'>Zinssatz</label>
+          <label for='interestRate'>
+            Zinssatz
+            <div class='adjusters'>
+              <a ng-click='adjustInterestAmortization(-0.1)'>-</a>
+              0,1
+              <a ng-click='adjustInterestAmortization(0.1)'>+</a>
+              /
+              <a ng-click='adjustInterestAmortization(-0.01)'>-</a>
+              0,01
+              <a ng-click='adjustInterestAmortization(0.01)'>+</a>
+            </div>
+          </label>
         </td>
         <td class='input'>
           <input id='interestRate' ng-change='calculate()' ng-model='financings.selected.interestRate' step='0.1' type='number'>
@@ -144,7 +155,18 @@
       </tr>
       <tr>
         <td class='label'>
-          <label for='amortizationRate'>Tilgungssatz</label>
+          <label for='amortizationRate'>
+            Tilgungssatz
+            <div class='adjusters'>
+              <a ng-click='adjustInterestAmortization(0.1)'>-</a>
+              0,1
+              <a ng-click='adjustInterestAmortization(-0.1)'>+</a>
+              /
+              <a ng-click='adjustInterestAmortization(0.01)'>-</a>
+              0,01
+              <a ng-click='adjustInterestAmortization(-0.01)'>+</a>
+            </div>
+          </label>
         </td>
         <td class='input'>
           <input id='amortizationRate' ng-change='calculate()' ng-model='financings.selected.amortizationRate' step='0.1' type='number'>

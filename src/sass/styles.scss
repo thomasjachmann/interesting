@@ -3,12 +3,16 @@ html, body {
   font-size: 14px;
 }
 
+ul.purchases, ul.financings,
+table.purchase, table.financing {
+  width: 500px;
+  float: left;
+  margin-right: 20px;
+}
+
 ul.purchases, ul.financings {
-  width: 250px;
   list-style-type: none;
   padding: 0;
-  float: left;
-  margin-right: 50px;
 
   li {
     margin: 0;
@@ -70,18 +74,23 @@ table.inputs {
   input {
     width: 100%;
   }
+  .label {
+    width: 250px;
+    overflow: hidden;
+    .adjusters {
+      display: inline;
+      float: right;
+      font-size: 75%;
+    }
+  }
   .output {
     text-align: right;
+    white-space: nowrap;
   }
   .result td {
     border-top: 1px solid black;
     font-weight: bold;
   }
-}
-
-table.purchase, table.financing {
-  float: left;
-  margin-right: 20px;
 }
 
 .processing, #payments {

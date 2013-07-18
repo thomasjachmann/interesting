@@ -103,12 +103,30 @@
           %input#capital{:type => "number", :step => "10000", :"ng-model" => "financings.selected.capital", :"ng-change" => "calculate()"}
       %tr
         %td.label
-          %label{:for => "interestRate"} Zinssatz
+          %label{:for => "interestRate"}
+            Zinssatz
+            .adjusters
+              %a{:"ng-click" => "adjustInterestAmortization(-0.1)"} -
+              0,1
+              %a{:"ng-click" => "adjustInterestAmortization(0.1)"} +
+              \/
+              %a{:"ng-click" => "adjustInterestAmortization(-0.01)"} -
+              0,01
+              %a{:"ng-click" => "adjustInterestAmortization(0.01)"} +
         %td.input
           %input#interestRate{:type => "number", :step => "0.1", :"ng-model" => "financings.selected.interestRate", :"ng-change" => "calculate()"}
       %tr
         %td.label
-          %label{:for => "amortizationRate"} Tilgungssatz
+          %label{:for => "amortizationRate"}
+            Tilgungssatz
+            .adjusters
+              %a{:"ng-click" => "adjustInterestAmortization(0.1)"} -
+              0,1
+              %a{:"ng-click" => "adjustInterestAmortization(-0.1)"} +
+              \/
+              %a{:"ng-click" => "adjustInterestAmortization(0.01)"} -
+              0,01
+              %a{:"ng-click" => "adjustInterestAmortization(-0.01)"} +
         %td.input
           %input#amortizationRate{:type => "number", :step => "0.1", :"ng-model" => "financings.selected.amortizationRate", :"ng-change" => "calculate()"}
       %tr

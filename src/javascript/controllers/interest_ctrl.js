@@ -19,7 +19,14 @@ function InterestCtrl($scope, $timeout, purchaseSelectionService, financingSelec
     if ($scope.financings.selected) {
       return $scope.credit() * $scope.financings.selected.optionalAmortizationRate / 100.0;
     }
-  }
+  };
+
+  $scope.adjustInterestAmortization = function(amount) {
+    var financing = $scope.financings.selected;
+    financing.interestRate = round(financing.interestRate + amount);
+    financing.amortizationRate = round(financing.amortizationRate - amount);
+    $scope.calculate();
+  };
 
   var calculationTimer, processData;
   $scope.calculate = function() {
@@ -66,5 +73,9 @@ function InterestCtrl($scope, $timeout, purchaseSelectionService, financingSelec
       $scope.processing = false;
       processData = null;
     }
+  }
+
+  function round(float) {
+   return Math.round(parseFloat(float) * Math.pow(10, 2)) / Math.pow(10, 2);
   }
 }
