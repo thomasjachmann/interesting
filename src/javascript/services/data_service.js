@@ -50,8 +50,9 @@ function DataService() {
   //   was migrated to
   var migrations = {
     null: function() {
-      var data;
-      for (var name in localStorage) {
+      var name, data;
+      for (var i = 0, len = localStorage.length; i < len; ++i) {
+        name = localStorage.key(i);
         data = angular.fromJson(localStorage.getItem(name));
         data.name = name;
         localStorage.setItem("inputs." + uuid(), angular.toJson(data));
